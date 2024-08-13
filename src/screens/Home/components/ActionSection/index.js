@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 import {Image, Linking, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {
+  IMGForum,
   IMGForYou,
   IMGLottery,
   IMGRowAds,
@@ -48,6 +50,14 @@ const ActionSection = () => {
         </View>
         <TextInter style={styles.actionLabel}>Tulis Berita</TextInter>
       </Pressable>
+      <Pressable
+        style={styles.action}
+        onPress={() => navigation.navigate('Forum')}>
+        <View style={styles.square}>
+          <Image style={styles.forYouImage} source={IMGForum} />
+        </View>
+        <TextInter style={styles.actionLabel}>Forum</TextInter>
+      </Pressable>
     </View>
   );
 };
@@ -61,7 +71,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: '10%',
+    paddingHorizontal: '7%',
   },
   action: {
     alignItems: 'center',

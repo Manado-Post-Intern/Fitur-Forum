@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
@@ -36,6 +37,7 @@ import {
   WriteNews,
   ChannelTagSelection,
 } from '../screens';
+import StatusTimeline from '../screens/Forum/StatusTimeline';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {screenHeightPercentage} from '../utils';
 import {BottomTabBar, TopBar} from '../components';
@@ -115,6 +117,7 @@ const PrivateRoutes = () => {
       <Stack.Screen name="MoreNews" component={MoreNews} />
       <Stack.Screen name="MetaMore" component={MetaMore} />
       <Stack.Screen name="WriteNews" component={WriteNews} />
+      <Stack.Screen name="Forum" component={StatusTimeline} />
       <Stack.Screen
         name="ChannelTagSelection"
         component={ChannelTagSelection}
