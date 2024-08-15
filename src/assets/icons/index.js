@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import IcClosedEye from './ic-closed-eye.svg';
 import IcOpenedEye from './ic-opened-eye.svg';
 import IcFacebook from './ic-facebook.svg';
@@ -68,6 +69,8 @@ import IcBigCheckmark from './ic-big-checkmark.svg';
 import IcFilter from './ic-filter.svg';
 import IcPinpoint from './ic-pinpoint.svg';
 import IcWhatsappExtraSmall from './ic-whatsapp-extra-small.svg';
+import IcLapor from './ic-lapor.svg';
+import IcLaporActive from './ic-lapor-active.svg';
 
 export {
   IcClosedEye,
@@ -140,4 +143,6 @@ export {
   IcFilter,
   IcPinpoint,
   IcWhatsappExtraSmall,
+  IcLapor,
+  IcLaporActive,
 };

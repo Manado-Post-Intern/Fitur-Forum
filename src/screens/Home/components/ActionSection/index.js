@@ -50,14 +50,6 @@ const ActionSection = () => {
         </View>
         <TextInter style={styles.actionLabel}>Tulis Berita</TextInter>
       </Pressable>
-      <Pressable
-        style={styles.action}
-        onPress={() => navigation.navigate('Forum')}>
-        <View style={styles.square}>
-          <Image style={styles.forYouImage} source={IMGForum} />
-        </View>
-        <TextInter style={styles.actionLabel}>Forum</TextInter>
-      </Pressable>
     </View>
   );
 };
@@ -76,7 +68,7 @@ const styles = StyleSheet.create({
   action: {
     alignItems: 'center',
     height: 75,
-    width: 60,
+    width: 75,
     justifyContent: 'space-between',
   },
   square: {

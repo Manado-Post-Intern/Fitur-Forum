@@ -23,6 +23,7 @@ import {
   SideMenu,
   SignIn,
   Splash,
+  StatusTimeline,
   Trending,
   Preview as AdsPreview,
   Profile,
@@ -37,7 +38,6 @@ import {
   WriteNews,
   ChannelTagSelection,
 } from '../screens';
-import StatusTimeline from '../screens/Forum/StatusTimeline';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {screenHeightPercentage} from '../utils';
 import {BottomTabBar, TopBar} from '../components';
@@ -69,7 +69,11 @@ const HomeTab = () => {
           minHeight: 80,
         },
       })}>
-      <Tab.Screen name="Trending" component={Trending} />
+      <Tab.Screen
+        name="Forum"
+        component={StatusTimeline}
+        options={{headerShown: false}}
+      />
       <Tab.Screen
         name="Region"
         component={Region}
@@ -117,7 +121,7 @@ const PrivateRoutes = () => {
       <Stack.Screen name="MoreNews" component={MoreNews} />
       <Stack.Screen name="MetaMore" component={MetaMore} />
       <Stack.Screen name="WriteNews" component={WriteNews} />
-      <Stack.Screen name="Forum" component={StatusTimeline} />
+      {/* <Stack.Screen name="Forum" component={StatusTimeline} /> */}
       <Stack.Screen
         name="ChannelTagSelection"
         component={ChannelTagSelection}

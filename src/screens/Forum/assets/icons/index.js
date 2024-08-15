@@ -8,6 +8,8 @@ import IcShare from './IcShare.svg';
 import IcAboutForum from './IcAboutForum.svg';
 import IcBackButtonForum from './IcBackButtonForum.svg';
 import IcCreateStatus from './IcCreateStatus.svg';
+import IcPencil from './ic-pencil.svg';
+import IcBack from './ic-back.svg';
 
 export {
   IcSearchBlue,
@@ -19,4 +21,6 @@ export {
   IcAboutForum,
   IcBackButtonForum,
   IcCreateStatus,
+  IcPencil,
+  IcBack,
 };

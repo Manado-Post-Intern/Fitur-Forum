@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {React, useState} from 'react';
-import {IMGMPTextPrimary} from '../../../../assets';
+import {IcBack, IMGMPTextPrimary} from '../../../../assets';
 import {IcSearchBlue} from '../../assets';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
 
 const Header = ({onRefresh}) => {
+  const navigation = useNavigation();
   const handleRefresh = () => {
     // Memanggil fungsi refresh dari props
     if (onRefresh) {
@@ -16,8 +18,11 @@ const Header = ({onRefresh}) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerTextContainer}>
-        <Image style={styles.primaryTextMP} source={IMGMPTextPrimary} />
-        <Text style={styles.forumText}>- Forum</Text>
+        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
+          <IcBack style={styles.backButtonStyle} />
+        </TouchableOpacity> */}
+
+        <Text style={styles.laporTextStyle}>LAPOR</Text>
         <View style={styles.searchIconSize}>
           <TouchableOpacity onPress={handleRefresh}>
             <IcSearchBlue style={styles.searchIcon} />
@@ -49,18 +54,33 @@ export default Header;
 const styles = StyleSheet.create({
   headerContainer: {
     width: '100%',
-    height: 80,
+    height: 72,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
-  primaryTextMP: {
-    height: 19,
-    width: 140,
-    marginLeft: 21,
+  // primaryTextMP: {
+  //   height: 19,
+  //   width: 140,
+  //   marginLeft: 21,
+  //   marginTop: 3,
+  // },
+  backButtonStyle: {
     marginTop: 3,
+    marginLeft: 5,
+    width: 18,
+  },
+  laporTextStyle: {
+    fontFamily: 'NotoSerifGeorgian-Black',
+    fontSize: 23,
+    // fontWeight: 'bold',
+    color: '#00599B',
+    marginLeft: 30,
   },
   headerTextContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   forumText: {
     marginLeft: 5,
@@ -70,7 +90,7 @@ const styles = StyleSheet.create({
     color: '#00599B',
   },
   searchIcon: {
-    marginLeft: 132,
+    marginLeft: 250,
   },
   searchIconSize: {
     width: 25,
