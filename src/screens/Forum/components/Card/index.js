@@ -1,186 +1,146 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {React, useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  IcComments,
-  IcDownvote,
-  IcShare,
-  IcUpvote,
-  IcWarning,
-  IMGkebakaran,
-  IMGprofile,
-} from '../../assets';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import database from '@react-native-firebase/database';
+import { IcComments, IcDownvote, IcShare, IcUpvote, IcWarning, IMGprofile } from '../../assets';
 
-const Card = ({
-  id,
-  type = 'photo',
-  initialUpvotes = 0,
-  initialDownvotes = 0,
-}) => {
-  const isPhotoType = type === 'photo';
-  const [isUpvoted, setIsUpvoted] = useState(false);
-  const [isDownvoted, setIsDownvoted] = useState(false);
-  const [upvotes, setUpvotes] = useState(initialUpvotes);
-  const [downvotes, setDownvotes] = useState(initialDownvotes);
+const Card = () => {
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // Mengambil status dari AsyncStorage
-    const fetchStatus = async () => {
-      const upvoted = await AsyncStorage.getItem(`card_${id}_isUpvoted`);
-      const downvoted = await AsyncStorage.getItem(`card_${id}_isDownvoted`);
-      const storedUpvotes = await AsyncStorage.getItem(`card_${id}_upvotes`);
-      const storedDownvotes = await AsyncStorage.getItem(
-        `card_${id}_downvotes`,
-      );
+    const fetchPosts = async () => {
+      const snapshot = await database().ref('forum/post').once('value');
+      const data = snapshot.val();
 
-      if (upvoted !== null) {
-        setIsUpvoted(JSON.parse(upvoted));
-      }
-
-      if (downvoted !== null) {
-        setIsDownvoted(JSON.parse(downvoted));
-      }
-
-      if (storedUpvotes !== null) {
-        setUpvotes(parseInt(storedUpvotes, 10));
-      } else {
-        setUpvotes(initialUpvotes);
-      }
-
-      if (storedDownvotes !== null) {
-        setDownvotes(parseInt(storedDownvotes, 10));
-      } else {
-        setDownvotes(initialDownvotes);
+      if (data) {
+        // Filter out any posts where ID or data is invalid
+        const postsArray = Object.keys(data)
+          .filter(id => id !== null && data[id]) // Filter out null IDs and ensure data is valid
+          .map(id => ({ id, ...data[id] }));
+        setPosts(postsArray);
       }
     };
-    fetchStatus();
-  }, [id, initialUpvotes, initialDownvotes]);
 
-  const handleUpvote = async () => {
+    fetchPosts();
+  }, []);
+
+  const handleUpvote = async (id, upvotes, isUpvoted, isDownvoted) => {
     const newUpvoteStatus = !isUpvoted;
     const voteChange = newUpvoteStatus ? 1 : -1;
 
-    // Jika upvote diaktifkan dan downvote aktif, hapus downvote
     if (isDownvoted && newUpvoteStatus) {
-      setIsDownvoted(false);
-      await AsyncStorage.setItem(
-        `card_${id}_isDownvoted`,
-        JSON.stringify(false),
+      setPosts(prevPosts =>
+        prevPosts.map(post =>
+          post.id === id
+            ? { ...post, isDownvoted: false, downVote: post.downVote - 1 }
+            : post,
+        ),
       );
-      setDownvotes(prevDownvotes => prevDownvotes - 1);
-      await AsyncStorage.setItem(
-        `card_${id}_downvotes`,
-        (downvotes - 1).toString(),
-      );
+      await AsyncStorage.setItem(`card_${id}_isDownvoted`, JSON.stringify(false));
+      await AsyncStorage.setItem(`card_${id}_downvotes`, (upvotes - 1).toString());
     }
 
-    // Perbarui status upvote
-    setIsUpvoted(newUpvoteStatus);
-    setUpvotes(prevUpvotes => prevUpvotes + voteChange);
-    await AsyncStorage.setItem(
-      `card_${id}_isUpvoted`,
-      JSON.stringify(newUpvoteStatus),
+    setPosts(prevPosts =>
+      prevPosts.map(post =>
+        post.id === id
+          ? { ...post, isUpvoted: newUpvoteStatus, upVote: post.upVote + voteChange }
+          : post,
+      ),
     );
-    await AsyncStorage.setItem(
-      `card_${id}_upvotes`,
-      (upvotes + voteChange).toString(),
-    );
+
+    await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(newUpvoteStatus));
+    await AsyncStorage.setItem(`card_${id}_upvotes`, (upvotes + voteChange).toString());
   };
 
-  const handleDownvote = async () => {
+  const handleDownvote = async (id, downvotes, isUpvoted, isDownvoted) => {
     const newDownvoteStatus = !isDownvoted;
     const voteChange = newDownvoteStatus ? 1 : -1;
 
-    // Jika downvote diaktifkan dan upvote aktif, hapus upvote
     if (isUpvoted && newDownvoteStatus) {
-      setIsUpvoted(false);
-      await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(false));
-      setUpvotes(prevUpvotes => prevUpvotes - 1);
-      await AsyncStorage.setItem(
-        `card_${id}_upvotes`,
-        (upvotes - 1).toString(),
+      setPosts(prevPosts =>
+        prevPosts.map(post =>
+          post.id === id
+            ? { ...post, isUpvoted: false, upVote: post.upVote - 1 }
+            : post,
+        ),
       );
+      await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(false));
+      await AsyncStorage.setItem(`card_${id}_upvotes`, (downvotes - 1).toString());
     }
 
-    // Perbarui status downvote
-    setIsDownvoted(newDownvoteStatus);
-    setDownvotes(prevDownvotes => prevDownvotes + voteChange);
-    await AsyncStorage.setItem(
-      `card_${id}_isDownvoted`,
-      JSON.stringify(newDownvoteStatus),
+    setPosts(prevPosts =>
+      prevPosts.map(post =>
+        post.id === id
+          ? { ...post, isDownvoted: newDownvoteStatus, downVote: post.downVote + voteChange }
+          : post,
+      ),
     );
-    await AsyncStorage.setItem(
-      `card_${id}_downvotes`,
-      (downvotes + voteChange).toString(),
-    );
+
+    await AsyncStorage.setItem(`card_${id}_isDownvoted`, JSON.stringify(newDownvoteStatus));
+    await AsyncStorage.setItem(`card_${id}_downvotes`, (downvotes + voteChange).toString());
   };
 
   return (
-    <View
-      style={[
-        styles.cardContainer,
-        !isPhotoType && styles.cardContainerNonPhoto,
-      ]}>
-      {isPhotoType && (
-        <View style={styles.cardImage}>
-          <Image source={IMGkebakaran} style={styles.postImage} />
-        </View>
-      )}
-      <View style={styles.userInformation}>
-        <View style={styles.userProfile}>
-          <Image style={styles.profileImage} source={IMGprofile} />
-        </View>
-        <Text style={styles.userName}>Jhellytha Kalantow</Text>
-        <Text style={styles.dash}>-</Text>
-        <Text style={styles.userCreatedAt}>13 jam</Text>
-        <View style={styles.warningIcon}>
-          <TouchableOpacity>
-            <IcWarning />
-          </TouchableOpacity>
-        </View>
+    <ScrollView>
+      <View style={{ padding: 10 }}>
+        {posts.map(post => (
+          <View key={post.id} style={[styles.cardContainer, post.type !== 'photo' && styles.cardContainerNonPhoto]}>
+            {post.type === 'photo' && (
+              <View style={styles.cardImage}>
+                <Image source={{ uri: post.image }} style={styles.postImage} />
+              </View>
+            )}
+            <View style={styles.userInformation}>
+              <View style={styles.userProfile}>
+                <Image style={styles.profileImage} source={IMGprofile} />
+              </View>
+              <Text style={styles.userName}>{post.owner}</Text>
+              <Text style={styles.dash}>-</Text>
+              <Text style={styles.userCreatedAt}>13 jam</Text>
+              <View style={styles.warningIcon}>
+                <TouchableOpacity>
+                  <IcWarning />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.caption}>
+              <Text style={styles.captionStyle}>{post.caption}</Text>
+            </View>
+            <View style={styles.cardFooter}>
+              <View>
+                <TouchableOpacity
+                  style={[styles.voteStyle, post.isUpvoted && styles.voteStyleUpvoted]}
+                  onPress={() => handleUpvote(post.id, post.upVote, post.isUpvoted, post.isDownvoted)}>
+                  <IcUpvote />
+                  {post.isUpvoted && <Text style={styles.upvoteCount}>{post.upVote}</Text>}
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity
+                  style={[styles.voteStyle, post.isDownvoted && styles.voteStyleDownvoted]}
+                  onPress={() => handleDownvote(post.id, post.downVote, post.isUpvoted, post.isDownvoted)}>
+                  <IcDownvote />
+                  {post.isDownvoted && <Text style={styles.upvoteCount}>{post.downVote}</Text>}
+                </TouchableOpacity>
+              </View>
+              <View style={styles.commentContainer}>
+                <TouchableOpacity style={styles.commentStyle}>
+                  <IcComments />
+                  <Text style={styles.commentTextStyle}>Komentar</Text>
+                  <Text style={styles.totalComment}>(8)</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.shareButton}>
+                <TouchableOpacity>
+                  <IcShare />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        ))}
       </View>
-      <View style={styles.caption}>
-        <Text style={styles.captionStyle}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.{' '}
-        </Text>
-        <Text style={styles.tagStyle}>#Kebakaran</Text>
-      </View>
-      <View style={styles.cardFooter}>
-        <View>
-          <TouchableOpacity
-            style={[styles.voteStyle, isUpvoted && styles.voteStyleUpvoted]}
-            onPress={handleUpvote}>
-            <IcUpvote />
-            {isUpvoted && <Text style={styles.upvoteCount}>{upvotes}</Text>}
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity
-            style={[styles.voteStyle, isDownvoted && styles.voteStyleDownvoted]}
-            onPress={handleDownvote}>
-            <IcDownvote />
-            {isDownvoted && <Text style={styles.upvoteCount}>{downvotes}</Text>}
-          </TouchableOpacity>
-        </View>
-        <View style={styles.commentContainer}>
-          <TouchableOpacity style={styles.commentStyle}>
-            <IcComments />
-            <Text style={styles.commentTextStyle}>Komentar</Text>
-            <Text style={styles.totalComment}>(8)</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.shareButton}>
-          <TouchableOpacity>
-            <IcShare />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 

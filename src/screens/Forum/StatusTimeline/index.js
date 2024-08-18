@@ -40,12 +40,12 @@ const StatusTimeline = ({navigation}) => {
     setRefreshKey(prevKey => prevKey + 1);
   };
 
-  const cardData = [
-    {id: '1', initialUpvotes: 2, initialDownvotes: 12, type: 'non-photo'},
-    {id: '2', initialUpvotes: 211, initialDownvotes: 222},
-    {id: '3', initialUpvotes: 2, initialDownvotes: 20},
-    {id: '4', initialUpvotes: 2, initialDownvotes: 8},
-  ];
+  // const cardData = [
+  //   {id: '1', initialUpvotes: 2, initialDownvotes: 12, type: 'non-photo'},
+  //   {id: '2', initialUpvotes: 211, initialDownvotes: 222},
+  //   {id: '3', initialUpvotes: 2, initialDownvotes: 20},
+  //   {id: '4', initialUpvotes: 2, initialDownvotes: 8},
+  // ];
 
   return (
     <View style={styles.container} key={refreshKey}>
@@ -59,15 +59,7 @@ const StatusTimeline = ({navigation}) => {
       </TouchableOpacity>
       <Gap height={5} />
       <ScrollView style={styles.content}>
-        {cardData.map(card => (
-          <Card
-            key={card.id}
-            id={card.id}
-            initialUpvotes={card.initialUpvotes}
-            initialDownvotes={card.initialDownvotes}
-            type={card.type}
-          />
-        ))}
+        <Card />
         <Gap height={90} />
       </ScrollView>
     </View>
