@@ -1,9 +1,23 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
-import { ScrollView, View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import database from '@react-native-firebase/database';
-import { IcComments, IcDownvote, IcShare, IcUpvote, IcWarning, IMGprofile } from '../../assets';
+import {
+  IcComments,
+  IcDownvote,
+  IcShare,
+  IcUpvote,
+  IcWarning,
+  IMGprofile,
+} from '../../assets';
 
 const Card = () => {
   const [posts, setPosts] = useState([]);
@@ -17,7 +31,7 @@ const Card = () => {
         // Filter out any posts where ID or data is invalid
         const postsArray = Object.keys(data)
           .filter(id => id !== null && data[id]) // Filter out null IDs and ensure data is valid
-          .map(id => ({ id, ...data[id] }));
+          .map(id => ({id, ...data[id]}));
         setPosts(postsArray);
       }
     };
@@ -33,24 +47,40 @@ const Card = () => {
       setPosts(prevPosts =>
         prevPosts.map(post =>
           post.id === id
-            ? { ...post, isDownvoted: false, downVote: post.downVote - 1 }
+            ? {...post, isDownvoted: false, downVote: post.downVote - 1}
             : post,
         ),
       );
-      await AsyncStorage.setItem(`card_${id}_isDownvoted`, JSON.stringify(false));
-      await AsyncStorage.setItem(`card_${id}_downvotes`, (upvotes - 1).toString());
+      await AsyncStorage.setItem(
+        `card_${id}_isDownvoted`,
+        JSON.stringify(false),
+      );
+      await AsyncStorage.setItem(
+        `card_${id}_downvotes`,
+        (upvotes - 1).toString(),
+      );
     }
 
     setPosts(prevPosts =>
       prevPosts.map(post =>
         post.id === id
-          ? { ...post, isUpvoted: newUpvoteStatus, upVote: post.upVote + voteChange }
+          ? {
+              ...post,
+              isUpvoted: newUpvoteStatus,
+              upVote: post.upVote + voteChange,
+            }
           : post,
       ),
     );
 
-    await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(newUpvoteStatus));
-    await AsyncStorage.setItem(`card_${id}_upvotes`, (upvotes + voteChange).toString());
+    await AsyncStorage.setItem(
+      `card_${id}_isUpvoted`,
+      JSON.stringify(newUpvoteStatus),
+    );
+    await AsyncStorage.setItem(
+      `card_${id}_upvotes`,
+      (upvotes + voteChange).toString(),
+    );
   };
 
   const handleDownvote = async (id, downvotes, isUpvoted, isDownvoted) => {
@@ -61,67 +91,112 @@ const Card = () => {
       setPosts(prevPosts =>
         prevPosts.map(post =>
           post.id === id
-            ? { ...post, isUpvoted: false, upVote: post.upVote - 1 }
+            ? {...post, isUpvoted: false, upVote: post.upVote - 1}
             : post,
         ),
       );
       await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(false));
-      await AsyncStorage.setItem(`card_${id}_upvotes`, (downvotes - 1).toString());
+      await AsyncStorage.setItem(
+        `card_${id}_upvotes`,
+        (downvotes - 1).toString(),
+      );
     }
 
     setPosts(prevPosts =>
       prevPosts.map(post =>
         post.id === id
-          ? { ...post, isDownvoted: newDownvoteStatus, downVote: post.downVote + voteChange }
+          ? {
+              ...post,
+              isDownvoted: newDownvoteStatus,
+              downVote: post.downVote + voteChange,
+            }
           : post,
       ),
     );
 
-    await AsyncStorage.setItem(`card_${id}_isDownvoted`, JSON.stringify(newDownvoteStatus));
-    await AsyncStorage.setItem(`card_${id}_downvotes`, (downvotes + voteChange).toString());
+    await AsyncStorage.setItem(
+      `card_${id}_isDownvoted`,
+      JSON.stringify(newDownvoteStatus),
+    );
+    await AsyncStorage.setItem(
+      `card_${id}_downvotes`,
+      (downvotes + voteChange).toString(),
+    );
   };
 
   return (
     <ScrollView>
-      <View style={{ padding: 10 }}>
+      <View style={{padding: 10}}>
         {posts.map(post => (
-          <View key={post.id} style={[styles.cardContainer, post.type !== 'photo' && styles.cardContainerNonPhoto]}>
+          <View
+            key={post.id}
+            style={[
+              styles.cardContainer,
+              post.type !== 'photo' && styles.cardContainerNonPhoto,
+            ]}>
             {post.type === 'photo' && (
               <View style={styles.cardImage}>
-                <Image source={{ uri: post.image }} style={styles.postImage} />
+                <Image source={{uri: post.image}} style={styles.postImage} />
               </View>
             )}
-            <View style={styles.userInformation}>
-              <View style={styles.userProfile}>
-                <Image style={styles.profileImage} source={IMGprofile} />
+            <View style={styles.userInformationContainer}>
+              <View style={styles.userInformation}>
+                <View style={styles.userProfile}>
+                  <Image style={styles.profileImage} source={IMGprofile} />
+                </View>
+                <Text style={styles.userName}>{post.owner}</Text>
+                <Text style={styles.dash}>-</Text>
+                <Text style={styles.userCreatedAt}>13 jam</Text>
               </View>
-              <Text style={styles.userName}>{post.owner}</Text>
-              <Text style={styles.dash}>-</Text>
-              <Text style={styles.userCreatedAt}>13 jam</Text>
               <View style={styles.warningIcon}>
                 <TouchableOpacity>
                   <IcWarning />
                 </TouchableOpacity>
               </View>
             </View>
+
             <View style={styles.caption}>
               <Text style={styles.captionStyle}>{post.caption}</Text>
             </View>
             <View style={styles.cardFooter}>
               <View>
                 <TouchableOpacity
-                  style={[styles.voteStyle, post.isUpvoted && styles.voteStyleUpvoted]}
-                  onPress={() => handleUpvote(post.id, post.upVote, post.isUpvoted, post.isDownvoted)}>
+                  style={[
+                    styles.voteStyle,
+                    post.isUpvoted && styles.voteStyleUpvoted,
+                  ]}
+                  onPress={() =>
+                    handleUpvote(
+                      post.id,
+                      post.upVote,
+                      post.isUpvoted,
+                      post.isDownvoted,
+                    )
+                  }>
                   <IcUpvote />
-                  {post.isUpvoted && <Text style={styles.upvoteCount}>{post.upVote}</Text>}
+                  {post.isUpvoted && (
+                    <Text style={styles.upvoteCount}>{post.upVote}</Text>
+                  )}
                 </TouchableOpacity>
               </View>
               <View>
                 <TouchableOpacity
-                  style={[styles.voteStyle, post.isDownvoted && styles.voteStyleDownvoted]}
-                  onPress={() => handleDownvote(post.id, post.downVote, post.isUpvoted, post.isDownvoted)}>
+                  style={[
+                    styles.voteStyle,
+                    post.isDownvoted && styles.voteStyleDownvoted,
+                  ]}
+                  onPress={() =>
+                    handleDownvote(
+                      post.id,
+                      post.downVote,
+                      post.isUpvoted,
+                      post.isDownvoted,
+                    )
+                  }>
                   <IcDownvote />
-                  {post.isDownvoted && <Text style={styles.upvoteCount}>{post.downVote}</Text>}
+                  {post.isDownvoted && (
+                    <Text style={styles.upvoteCount}>{post.downVote}</Text>
+                  )}
                 </TouchableOpacity>
               </View>
               <View style={styles.commentContainer}>
@@ -148,13 +223,15 @@ export default Card;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: 402,
+    width: 392,
     height: 433,
     backgroundColor: '#FFFFFF',
     marginTop: 10,
     borderRadius: 8,
-    alignItems: 'center',
+    // alignItems: 'center',
     elevation: 3,
+    paddingLeft: 27,
+    paddingTop: 5,
   },
   cardContainerNonPhoto: {
     height: 240,
@@ -169,18 +246,22 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 8,
   },
+  userInformationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   userInformation: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 14,
-    marginLeft: 14,
+    flexShrink: 1,
   },
   userProfile: {
     width: 44,
     height: 44,
     borderRadius: 30,
     backgroundColor: 'red',
-    marginLeft: -20,
+    // marginLeft: -20,
   },
   profileImage: {
     width: '100%',
@@ -191,16 +272,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'black',
     fontWeight: 'bold',
-    marginLeft: 10,
+    marginLeft: 12,
+    flexShrink: 1,
   },
   dash: {
-    marginLeft: 5,
+    marginLeft: 10,
   },
   userCreatedAt: {
     marginLeft: 5,
   },
   warningIcon: {
-    marginLeft: 110,
+    position: 'absolute', // Changed from 'relative' to 'absolute'
+    right: 20,
+    top: '50%', // Center it vertically
     width: 24,
     height: 24,
   },
@@ -220,7 +304,7 @@ const styles = StyleSheet.create({
   cardFooter: {
     flexDirection: 'row',
     marginTop: 18,
-    marginLeft: -20,
+    marginLeft: -10,
   },
   voteStyle: {
     flexDirection: 'row',
@@ -234,8 +318,8 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   voteStyleUpvoted: {
-    marginLeft: 30,
-    marginRight: -5,
+    // marginLeft: 25,
+    marginRight: -10,
     width: 60,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
@@ -256,7 +340,8 @@ const styles = StyleSheet.create({
   commentContainer: {
     width: 132,
     height: 30,
-    marginLeft: 43,
+    marginLeft: 130,
+    position: 'absolute',
   },
   commentStyle: {
     width: 132,
@@ -276,6 +361,7 @@ const styles = StyleSheet.create({
     color: '#39A5E1',
   },
   shareButton: {
-    marginLeft: 40,
+    position: 'absolute',
+    marginLeft: 320,
   },
 });

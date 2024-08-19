@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: '#B0DBF3',
-    paddingHorizontal: 5,
+    // paddingHorizontal: 5,
   },
   createStatusButton: {
     flexDirection: 'row',
