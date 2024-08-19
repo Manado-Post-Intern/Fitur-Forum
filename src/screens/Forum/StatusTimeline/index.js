@@ -13,39 +13,13 @@ import {IcPencil} from '../assets';
 const StatusTimeline = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
 
-  // Fungsi untuk membersihkan dan mengatur ulang AsyncStorage
-  const resetAsyncStorage = async () => {
-    try {
-      // Clear AsyncStorage
-      await AsyncStorage.clear();
-      console.log('AsyncStorage cleared');
-
-      // Set initial values
-      await AsyncStorage.setItem('isUpvoted', JSON.stringify(false));
-      await AsyncStorage.setItem('isDownvoted', JSON.stringify(false));
-      await AsyncStorage.setItem('upvotes', '2'); // Ubah sesuai nilai inisial
-      await AsyncStorage.setItem('downvotes', '8'); // Ubah sesuai nilai inisial
-      console.log('AsyncStorage reset with initial values');
-    } catch (error) {
-      console.error('Failed to clear and reset AsyncStorage:', error);
-    }
-  };
-
-  // Efek untuk menjalankan resetAsyncStorage saat refreshKey berubah
-  useEffect(() => {
-    resetAsyncStorage();
-  }, [refreshKey]);
-
   const handleRefresh = () => {
     setRefreshKey(prevKey => prevKey + 1);
   };
 
-  // const cardData = [
-  //   {id: '1', initialUpvotes: 2, initialDownvotes: 12, type: 'non-photo'},
-  //   {id: '2', initialUpvotes: 211, initialDownvotes: 222},
-  //   {id: '3', initialUpvotes: 2, initialDownvotes: 20},
-  //   {id: '4', initialUpvotes: 2, initialDownvotes: 8},
-  // ];
+  useEffect(() => {
+    // Tidak perlu reset AsyncStorage di sini
+  }, [refreshKey]);
 
   return (
     <View style={styles.container} key={refreshKey}>
@@ -77,7 +51,6 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: '#B0DBF3',
-    // paddingHorizontal: 5,
   },
   createStatusButton: {
     flexDirection: 'row',

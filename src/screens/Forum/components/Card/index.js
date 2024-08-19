@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import React, {useState, useEffect} from 'react';
 import {
   ScrollView,
@@ -28,99 +29,131 @@ const Card = () => {
       const data = snapshot.val();
 
       if (data) {
-        // Filter out any posts where ID or data is invalid
         const postsArray = Object.keys(data)
-          .filter(id => id !== null && data[id]) // Filter out null IDs and ensure data is valid
+          .filter(id => id !== null && data[id])
           .map(id => ({id, ...data[id]}));
-        setPosts(postsArray);
+
+        // Load upvote/downvote status from AsyncStorage
+        const updatedPostsArray = await Promise.all(
+          postsArray.map(async post => {
+            const isUpvoted = await AsyncStorage.getItem(
+              `card_${post.id}_isUpvoted`,
+            );
+            const isDownvoted = await AsyncStorage.getItem(
+              `card_${post.id}_isDownvoted`,
+            );
+
+            return {
+              ...post,
+              isUpvoted: JSON.parse(isUpvoted) || false,
+              isDownvoted: JSON.parse(isDownvoted) || false,
+            };
+          }),
+        );
+
+        setPosts(updatedPostsArray);
       }
     };
 
     fetchPosts();
   }, []);
 
-  const handleUpvote = async (id, upvotes, isUpvoted, isDownvoted) => {
+  const handleUpvote = async (
+    id,
+    upvotes,
+    downvotes,
+    isUpvoted,
+    isDownvoted,
+  ) => {
     const newUpvoteStatus = !isUpvoted;
-    const voteChange = newUpvoteStatus ? 1 : -1;
 
-    if (isDownvoted && newUpvoteStatus) {
-      setPosts(prevPosts =>
-        prevPosts.map(post =>
-          post.id === id
-            ? {...post, isDownvoted: false, downVote: post.downVote - 1}
-            : post,
-        ),
-      );
+    if (newUpvoteStatus) {
+      // Jika belum upvote sebelumnya, tambahkan 1 ke upvotes
+      await database()
+        .ref(`forum/post/${id}`)
+        .update({
+          upVote: database.ServerValue.increment(1),
+          ...(isDownvoted && {downVote: database.ServerValue.increment(-1)}),
+        });
+      await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(true));
       await AsyncStorage.setItem(
         `card_${id}_isDownvoted`,
         JSON.stringify(false),
       );
-      await AsyncStorage.setItem(
-        `card_${id}_downvotes`,
-        (upvotes - 1).toString(),
-      );
+    } else {
+      // Jika sudah upvote, batalkan upvote dengan mengurangi 1
+      await database()
+        .ref(`forum/post/${id}`)
+        .update({
+          upVote: database.ServerValue.increment(-1),
+        });
+      await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(false));
     }
 
+    // Update state lokal
     setPosts(prevPosts =>
       prevPosts.map(post =>
         post.id === id
           ? {
               ...post,
               isUpvoted: newUpvoteStatus,
-              upVote: post.upVote + voteChange,
+              isDownvoted: false,
+              upVote: post.upVote + (newUpvoteStatus ? 1 : -1),
+              downVote: post.isDownvoted ? post.downVote - 1 : post.downVote,
             }
           : post,
       ),
     );
-
-    await AsyncStorage.setItem(
-      `card_${id}_isUpvoted`,
-      JSON.stringify(newUpvoteStatus),
-    );
-    await AsyncStorage.setItem(
-      `card_${id}_upvotes`,
-      (upvotes + voteChange).toString(),
-    );
   };
 
-  const handleDownvote = async (id, downvotes, isUpvoted, isDownvoted) => {
+  const handleDownvote = async (
+    id,
+    downvotes,
+    upvotes,
+    isDownvoted,
+    isUpvoted,
+  ) => {
     const newDownvoteStatus = !isDownvoted;
-    const voteChange = newDownvoteStatus ? 1 : -1;
 
-    if (isUpvoted && newDownvoteStatus) {
-      setPosts(prevPosts =>
-        prevPosts.map(post =>
-          post.id === id
-            ? {...post, isUpvoted: false, upVote: post.upVote - 1}
-            : post,
-        ),
+    if (newDownvoteStatus) {
+      // Jika belum downvote sebelumnya, tambahkan 1 ke downvotes
+      await database()
+        .ref(`forum/post/${id}`)
+        .update({
+          downVote: database.ServerValue.increment(1),
+          ...(isUpvoted && {upVote: database.ServerValue.increment(-1)}),
+        });
+      await AsyncStorage.setItem(
+        `card_${id}_isDownvoted`,
+        JSON.stringify(true),
       );
       await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(false));
+    } else {
+      // Jika sudah downvote, batalkan downvote dengan mengurangi 1
+      await database()
+        .ref(`forum/post/${id}`)
+        .update({
+          downVote: database.ServerValue.increment(-1),
+        });
       await AsyncStorage.setItem(
-        `card_${id}_upvotes`,
-        (downvotes - 1).toString(),
+        `card_${id}_isDownvoted`,
+        JSON.stringify(false),
       );
     }
 
+    // Update state lokal
     setPosts(prevPosts =>
       prevPosts.map(post =>
         post.id === id
           ? {
               ...post,
               isDownvoted: newDownvoteStatus,
-              downVote: post.downVote + voteChange,
+              isUpvoted: false,
+              downVote: post.downVote + (newDownvoteStatus ? 1 : -1),
+              upVote: post.isUpvoted ? post.upVote - 1 : post.upVote,
             }
           : post,
       ),
-    );
-
-    await AsyncStorage.setItem(
-      `card_${id}_isDownvoted`,
-      JSON.stringify(newDownvoteStatus),
-    );
-    await AsyncStorage.setItem(
-      `card_${id}_downvotes`,
-      (downvotes + voteChange).toString(),
     );
   };
 
@@ -169,6 +202,7 @@ const Card = () => {
                     handleUpvote(
                       post.id,
                       post.upVote,
+                      post.downVote,
                       post.isUpvoted,
                       post.isDownvoted,
                     )
@@ -189,8 +223,9 @@ const Card = () => {
                     handleDownvote(
                       post.id,
                       post.downVote,
-                      post.isUpvoted,
+                      post.upVote,
                       post.isDownvoted,
+                      post.isUpvoted,
                     )
                   }>
                   <IcDownvote />
