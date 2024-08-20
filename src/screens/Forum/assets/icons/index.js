@@ -10,6 +10,7 @@ import IcBackButtonForum from './IcBackButtonForum.svg';
 import IcCreateStatus from './IcCreateStatus.svg';
 import IcPencil from './ic-pencil.svg';
 import IcBack from './ic-back.svg';
+import Downvoted from './Downvoted.svg'
 
 export {
   IcSearchBlue,
@@ -23,4 +24,5 @@ export {
   IcCreateStatus,
   IcPencil,
   IcBack,
+  Downvoted,
 };
