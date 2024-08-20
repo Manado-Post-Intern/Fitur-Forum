@@ -19,12 +19,15 @@ import {
   IcWarning,
   IMGprofile,
 } from '../../assets';
+import { RefreshControl } from 'react-native-gesture-handler';
 
 const Card = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
+  const fetchPosts = async () => {
+    setLoading(true); // Mulai loading
+    try {
       const snapshot = await database().ref('forum/post').once('value');
       const data = snapshot.val();
 
@@ -53,9 +56,15 @@ const Card = () => {
 
         setPosts(updatedPostsArray);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching posts: ', error);
+    } finally {
+      setLoading(false); // Selesai loading
+    }
+  };
 
-    fetchPosts();
+  useEffect(() => {
+    fetchPosts(); // Panggil fetchPosts saat komponen dimount
   }, []);
 
   const handleUpvote = async (
@@ -68,7 +77,6 @@ const Card = () => {
     const newUpvoteStatus = !isUpvoted;
 
     if (newUpvoteStatus) {
-      // Jika belum upvote sebelumnya, tambahkan 1 ke upvotes
       await database()
         .ref(`forum/post/${id}`)
         .update({
@@ -81,7 +89,6 @@ const Card = () => {
         JSON.stringify(false),
       );
     } else {
-      // Jika sudah upvote, batalkan upvote dengan mengurangi 1
       await database()
         .ref(`forum/post/${id}`)
         .update({
@@ -90,7 +97,6 @@ const Card = () => {
       await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(false));
     }
 
-    // Update state lokal
     setPosts(prevPosts =>
       prevPosts.map(post =>
         post.id === id
@@ -116,7 +122,6 @@ const Card = () => {
     const newDownvoteStatus = !isDownvoted;
 
     if (newDownvoteStatus) {
-      // Jika belum downvote sebelumnya, tambahkan 1 ke downvotes
       await database()
         .ref(`forum/post/${id}`)
         .update({
@@ -129,7 +134,6 @@ const Card = () => {
       );
       await AsyncStorage.setItem(`card_${id}_isUpvoted`, JSON.stringify(false));
     } else {
-      // Jika sudah downvote, batalkan downvote dengan mengurangi 1
       await database()
         .ref(`forum/post/${id}`)
         .update({
@@ -141,7 +145,6 @@ const Card = () => {
       );
     }
 
-    // Update state lokal
     setPosts(prevPosts =>
       prevPosts.map(post =>
         post.id === id
@@ -158,8 +161,11 @@ const Card = () => {
   };
 
   return (
-    <ScrollView>
-      <View style={{padding: 10}}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={loading} onRefresh={fetchPosts} />
+      }>
+      <View style={{flex: 1}}>
         {posts.map(post => (
           <View
             key={post.id}
@@ -263,7 +269,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginTop: 10,
     borderRadius: 8,
-    // alignItems: 'center',
     elevation: 3,
     paddingLeft: 27,
     paddingTop: 5,
@@ -296,7 +301,6 @@ const styles = StyleSheet.create({
     height: 44,
     borderRadius: 30,
     backgroundColor: 'red',
-    // marginLeft: -20,
   },
   profileImage: {
     width: '100%',
@@ -317,9 +321,9 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   warningIcon: {
-    position: 'absolute', // Changed from 'relative' to 'absolute'
+    position: 'absolute',
     right: 20,
-    top: '50%', // Center it vertically
+    top: '50%',
     width: 24,
     height: 24,
   },
@@ -331,10 +335,6 @@ const styles = StyleSheet.create({
   captionStyle: {
     color: 'black',
     fontSize: 13,
-  },
-  tagStyle: {
-    color: 'black',
-    fontWeight: 'bold',
   },
   cardFooter: {
     flexDirection: 'row',
@@ -353,23 +353,25 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   voteStyleUpvoted: {
-    // marginLeft: 25,
     marginRight: -10,
+    marginLeft: 2,
     width: 60,
     backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#00599B',
+    borderWidth: 2,
+    borderColor: '#39A5E1',
   },
   voteStyleDownvoted: {
-    marginRight: -25,
+    marginRight: -10,
+    marginLeft: 5,
     width: 60,
     backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#F02D2D',
+    borderWidth: 2,
+    borderColor: '#39A5E1',
   },
   upvoteCount: {
     fontSize: 14,
-    color: 'black',
+    fontWeight: 'bold',
+    color: '#39A5E1',
     marginLeft: 5,
   },
   commentContainer: {
