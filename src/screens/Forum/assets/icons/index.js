@@ -10,6 +10,10 @@ import IcBackButtonForum from './IcBackButtonForum.svg';
 import IcCreateStatus from './IcCreateStatus.svg';
 import IcPencil from './ic-pencil.svg';
 import IcBack from './ic-back.svg';
+import IcBackBlack from './ic-back-black.svg';
+import IcDropdown from './ic-dropdown.svg';
+import IcUploadImage from './ic-upload-image.svg';
+import IcClose from './icon-close.svg';
 
 export {
   IcSearchBlue,
@@ -23,4 +27,8 @@ export {
   IcCreateStatus,
   IcPencil,
   IcBack,
+  IcBackBlack,
+  IcDropdown,
+  IcUploadImage,
+  IcClose,
 };
