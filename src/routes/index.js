@@ -42,6 +42,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {screenHeightPercentage} from '../utils';
 import {BottomTabBar, TopBar} from '../components';
 import {AuthContext} from '../context/AuthContext';
+import ReportStatus from '../screens/Forum/ReportStatus';
 
 /**
  * Home Bottom Tab Bar Navigation Routes
@@ -122,6 +123,8 @@ const PrivateRoutes = () => {
       <Stack.Screen name="MetaMore" component={MetaMore} />
       <Stack.Screen name="WriteNews" component={WriteNews} />
       {/* <Stack.Screen name="Forum" component={StatusTimeline} /> */}
+
+      <Stack.Screen name="ReportStatus" component={ReportStatus} />
       <Stack.Screen
         name="ChannelTagSelection"
         component={ChannelTagSelection}

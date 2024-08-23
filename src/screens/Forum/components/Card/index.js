@@ -19,11 +19,13 @@ import {
   IcWarning,
   IMGprofile,
 } from '../../assets';
-import { RefreshControl } from 'react-native-gesture-handler';
+import {RefreshControl} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
 
 const Card = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
 
   const fetchPosts = async () => {
     setLoading(true); // Mulai loading
@@ -188,7 +190,8 @@ const Card = () => {
                 <Text style={styles.userCreatedAt}>13 jam</Text>
               </View>
               <View style={styles.warningIcon}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('ReportStatus')}>
                   <IcWarning />
                 </TouchableOpacity>
               </View>
