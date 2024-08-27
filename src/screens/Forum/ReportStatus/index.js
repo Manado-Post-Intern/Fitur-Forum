@@ -8,31 +8,29 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
-import {IcClose, IcOption} from '../assets'; // Pastikan path ini benar
+import {IcClose, IcOption} from '../assets'; 
 
 const ReportStatus = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
-  const [currentContent, setCurrentContent] = useState('main'); // State untuk mengatur konten yang ditampilkan
+  const [currentContent, setCurrentContent] = useState('main'); 
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['90%'], []);
-  const translateX = useSharedValue(300); // Start off-screen to the right
-
+  const translateX = useSharedValue(300); 
   const handleRefresh = () => {
     setRefreshKey(prevKey => prevKey + 1);
   };
 
   const handleOptionPress = () => {
-    setCurrentContent('detail'); // Ganti konten menjadi detail
+    setCurrentContent('detail'); 
     setIsDetailVisible(true);
-    translateX.value = withTiming(0, {duration: 500}); // Slide in from the right
-  };
+    translateX.value = withTiming(0, {duration: 500}); 
 
   const handleBackPress = () => {
     translateX.value = withTiming(300, {duration: 500}, () => {
       setIsDetailVisible(false);
-      setCurrentContent('main'); // Kembali ke konten utama setelah animasi selesai
-    }); // Slide out to the right
+      setCurrentContent('main'); 
+    }); 
   };
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -119,6 +117,7 @@ const ReportStatus = ({navigation}) => {
     </GestureHandlerRootView>
   );
 };
+}
 
 export default ReportStatus;
 
@@ -176,3 +175,4 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
