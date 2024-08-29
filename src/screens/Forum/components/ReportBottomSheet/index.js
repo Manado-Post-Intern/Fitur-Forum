@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import {IcOption, IcClose} from '../../assets';
+import {IcOption, IcClose, IcBack} from '../../assets';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -44,10 +44,11 @@ const ReportBottomSheet = ({onClose}) => {
 
   return (
     <View style={styles.container}>
-      {/* Tombol Back */}
-      <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
-        <IcBack /> {/* Ini adalah ikon panah kembali */}
-      </TouchableOpacity>
+      {isDetailVisible && (
+        <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+          <IcBack /> 
+        </TouchableOpacity>
+      )}
       
       <Text style={styles.headerTitle}>Laporkan</Text>
       
@@ -56,49 +57,49 @@ const ReportBottomSheet = ({onClose}) => {
       </TouchableOpacity>
       
       <View style={styles.separator} />
-
+  
       {!isDetailVisible && (
         <>
           <Text style={styles.mainTitle}>
             Mengapa anda melaporkan postingan ini?
           </Text>
-
+  
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Berita palsu')}>
             <Text style={styles.optionText}>Berita palsu</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
-
+  
           <View style={styles.separator} />
-
+  
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Perundungan atau pelecehan')}>
             <Text style={styles.optionText}>Perundungan atau pelecehan</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
-
+  
           <View style={styles.separator} />
-
+  
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Pelanggaran privasi')}>
             <Text style={styles.optionText}>Pelanggaran privasi</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
-
+  
           <View style={styles.separator} />
-
+  
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Spam')}>
             <Text style={styles.optionText}>Spam</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
-
+  
           <View style={styles.separator} />
-
+  
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Lainnya')}>
@@ -107,7 +108,7 @@ const ReportBottomSheet = ({onClose}) => {
           </TouchableOpacity>
         </>
       )}
-
+  
       {isDetailVisible && (
         <Animated.View style={[styles.detailContainer, animatedStyle]}>
           <Text style={styles.detailTitle}>Anda akan mengirimkan laporan</Text>
@@ -115,18 +116,18 @@ const ReportBottomSheet = ({onClose}) => {
             Kami hanya akan menghapus postingan yang tidak sesuai dengan Standar
             Komunitas.
           </Text>
-
+  
           <Gap height={10} />
-
+  
           <Text style={styles.reportDetailTitle}>Rincian Laporan</Text>
-
+  
           <View style={styles.selectedOptionContainer}>
             <Text style={styles.selectedOptionLabel}>
               Mengapa anda melaporkan postingan ini?
             </Text>
             <Text style={styles.selectedOption}>{selectedOption}</Text>
           </View>
-
+  
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.textInput}
@@ -144,7 +145,7 @@ const ReportBottomSheet = ({onClose}) => {
         </Animated.View>
       )}
     </View>
-  );
+  );  
 };
 
 export default ReportBottomSheet;
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     top: 20,
-    left: 20,  // Pastikan tombol berada di kiri
+    left: 20,
   },
   separator: {
     height: 1,
@@ -202,19 +203,19 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   detailTitle: {
-    fontSize: 21,
+    fontSize: 23,
     fontWeight: '700',
     color: '#000',
     marginBottom: 10,
   },
   detailDescription: {
-    fontSize: 18,
+    fontSize: 21,
     color: '#555',
     marginBottom: 20,
   },
   reportDetailTitle: {
-    fontSize: 19,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '700',
     color: '#000',
     marginBottom: 10,
   },
@@ -255,14 +256,17 @@ const styles = StyleSheet.create({
   },
   sendButton: {
     backgroundColor: '#00599B',
-    borderRadius: 5,
-    paddingVertical: 8,
+    borderRadius: 15,
+    paddingVertical: 15,
     paddingHorizontal: 15,
-    alignSelf: 'flex-end',
+    justifyContent: 'center', 
+    alignItems: 'center',  
   },
   sendButtonText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 17,
     fontWeight: '600',
+    textAlign: 'center',
   },
+  
 });
