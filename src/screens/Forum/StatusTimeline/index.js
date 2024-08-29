@@ -19,7 +19,7 @@ const StatusTimeline = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['100%'], []);
+  const snapPoints = useMemo(() => ['90%'], []);
 
   const openBottomSheet = () => {
     setBottomSheetVisible(true);
@@ -53,18 +53,18 @@ const StatusTimeline = ({navigation}) => {
         <Gap height={5} />
         <ScrollView style={styles.content}>
           <Card onReportPress={openBottomSheet} />
-          {isBottomSheetVisible && (
-            <BottomSheet
-              ref={bottomSheetRef}
-              index={0}
-              snapPoints={snapPoints}
-              enablePanDownToClose={true}
-              onClose={() => setBottomSheetVisible(false)}>
-              <ReportBottomSheet onClose={closeBottomSheet} />
-            </BottomSheet>
-          )}
           <Gap height={90} />
         </ScrollView>
+        {isBottomSheetVisible && (
+          <BottomSheet
+            ref={bottomSheetRef}
+            index={0}
+            snapPoints={snapPoints}
+            enablePanDownToClose={true}
+            onClose={() => setBottomSheetVisible(false)}>
+            <ReportBottomSheet onClose={closeBottomSheet} />
+          </BottomSheet>
+        )}
       </View>
     </GestureHandlerRootView>
   );
