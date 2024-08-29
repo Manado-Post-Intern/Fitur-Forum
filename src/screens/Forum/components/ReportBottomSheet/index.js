@@ -80,7 +80,6 @@ const ReportBottomSheet = ({ onClose }) => {
 
       {isDetailVisible && (
         <Animated.View style={[styles.detailContainer, animatedStyle]}>
-
           <Text style={styles.detailTitle}>Anda akan mengirimkan laporan</Text>
           <Text style={styles.detailDescription}>
             Kami hanya akan menghapus postingan yang tidak sesuai dengan Standar Komunitas.
@@ -95,17 +94,24 @@ const ReportBottomSheet = ({ onClose }) => {
             <Text style={styles.selectedOption}>{selectedOption}</Text>
           </View>
 
-          <TextInput
-            style={styles.textInput}
-            placeholder="Berikan kami penjelasan..."
-            placeholderTextColor="rgba(0, 0, 0, 0.6)"
-            multiline
-            numberOfLines={4}
-            textAlignVertical="top"
-          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Berikan kami penjelasan..."
+              placeholderTextColor="rgba(0, 0, 0, 0.6)"
+              multiline
+              numberOfLines={4}
+              textAlignVertical="top"
+            />
+          </View>
+          <Gap height={25}/>
+          <TouchableOpacity style={styles.sendButton}>
+              <Text style={styles.sendButtonText}>Kirim</Text>
+            </TouchableOpacity>
         </Animated.View>
       )}
     </View>
+    
   );
 };
 
@@ -157,18 +163,18 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   detailTitle: {
-    fontSize: 23,
+    fontSize: 21,
     fontWeight: '700',
     color: '#000',
     marginBottom: 10,
   },
   detailDescription: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#555',
     marginBottom: 20,
   },
   reportDetailTitle: {
-    fontSize: 20,
+    fontSize: 19,
     fontWeight: '600',
     color: '#000',
     marginBottom: 10,
@@ -191,15 +197,33 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000',
   },
-  textInput: {
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#F0F0F0',
     borderRadius: 5,
-    padding: 15,
-    paddingTop: 8,
     paddingHorizontal: 10,
+    paddingTop: 8,
+    height: 150,
+  },
+  textInput: {
+    flex: 1,
     fontSize: 18,
     fontWeight: '400',
     color: '#000',
-    height: 180,
+    height: '100%',
+    textAlignVertical: 'top',
+  },
+  sendButton: {
+    backgroundColor: '#00599B',
+    borderRadius: 5,
+    paddingVertical: 8, 
+    paddingHorizontal: 15, 
+    alignSelf: 'flex-end',
+  },
+  sendButtonText: {
+    color: '#fff',
+    fontSize: 14, 
+    fontWeight: '600',
   },
 });

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View} from 'react-native';
-import {React, useState, useRef, useMemo} from 'react';
+import {useState, useRef, useMemo} from 'react';
 import {GestureHandlerRootView, TouchableOpacity} from 'react-native-gesture-handler';
 import BottomSheet from '@gorhom/bottom-sheet';
 import Animated, {
@@ -8,7 +8,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
-import {IcClose, IcOption} from '../assets'; 
+import {IcClose, IcOption} from '../assets';
 
 const ReportStatus = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
@@ -17,6 +17,7 @@ const ReportStatus = ({navigation}) => {
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['90%'], []);
   const translateX = useSharedValue(300); 
+
   const handleRefresh = () => {
     setRefreshKey(prevKey => prevKey + 1);
   };
@@ -25,6 +26,7 @@ const ReportStatus = ({navigation}) => {
     setCurrentContent('detail'); 
     setIsDetailVisible(true);
     translateX.value = withTiming(0, {duration: 500}); 
+  }; // <-- Tambahkan penutupan kurung kurawal di sini
 
   const handleBackPress = () => {
     translateX.value = withTiming(300, {duration: 500}, () => {
@@ -117,7 +119,6 @@ const ReportStatus = ({navigation}) => {
     </GestureHandlerRootView>
   );
 };
-}
 
 export default ReportStatus;
 
@@ -175,4 +176,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-

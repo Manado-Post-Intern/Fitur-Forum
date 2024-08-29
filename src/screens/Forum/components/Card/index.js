@@ -344,9 +344,9 @@ const styles = StyleSheet.create({
   warningIcon: {
     position: 'absolute',
     right: 20,
-    top: '50%',
     width: 24,
     height: 24,
+    top: 25,
   },
   caption: {
     width: 343,
