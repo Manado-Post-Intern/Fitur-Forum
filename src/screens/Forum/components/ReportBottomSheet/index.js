@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { IcOption, IcClose } from '../../assets';
+import { IcOption, IcClose, IcBack } from '../../assets';  // Tambahkan import untuk IcBack
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Gap } from '../../../../components';
 
@@ -33,10 +33,17 @@ const ReportBottomSheet = ({ onClose }) => {
 
   return (
     <View style={styles.container}>
+      {/* Tombol Back */}
+      <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+        <IcBack /> {/* Ini adalah ikon panah kembali */}
+      </TouchableOpacity>
+      
       <Text style={styles.headerTitle}>Laporkan</Text>
+      
       <TouchableOpacity style={styles.closeButton} onPress={onClose}>
         <IcClose />
       </TouchableOpacity>
+      
       <View style={styles.separator} />
 
       {!isDetailVisible && (
@@ -107,11 +114,10 @@ const ReportBottomSheet = ({ onClose }) => {
           <Gap height={25}/>
           <TouchableOpacity style={styles.sendButton}>
               <Text style={styles.sendButtonText}>Kirim</Text>
-            </TouchableOpacity>
+          </TouchableOpacity>
         </Animated.View>
       )}
     </View>
-    
   );
 };
 
@@ -133,6 +139,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 20,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 20,
+    left: 20,  // Pastikan tombol berada di kiri
   },
   separator: {
     height: 1,
