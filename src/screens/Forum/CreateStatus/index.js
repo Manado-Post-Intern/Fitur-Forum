@@ -2,13 +2,13 @@
 import {StyleSheet, Text, View, Image, Alert} from 'react-native';
 import {React, useState} from 'react';
 import {
-  IcBackBlack,
+  IcBackBlue,
   IcClose,
   IcComments,
   IcDownvote,
   IcDropdown,
   IcShare,
-  IcUploadImage,
+  IcUploadGrey,
   IcUpvote,
   IcWarning,
   IMGprofile,
@@ -57,7 +57,7 @@ const CreateStatus = () => {
       <View style={styles.headerContainer}>
         <View style={styles.backButton}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <IcBackBlack />
+            <IcBackBlue />
           </TouchableOpacity>
         </View>
         <View style={styles.textContainer}>
@@ -101,7 +101,7 @@ const CreateStatus = () => {
           <TouchableOpacity
             style={styles.uploadMediaStyle}
             onPress={handleImagePick}>
-            <IcUploadImage />
+            <IcUploadGrey />
             <Text style={styles.textUploadMedia}>Upload Media</Text>
           </TouchableOpacity>
         </View>
@@ -181,11 +181,12 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: '100%',
-    height: 72,
+    height: 65,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     flexDirection: 'row',
     borderBottomWidth: 1,
+    borderBottomColor: '#39A5E1',
   },
   backButton: {
     width: 50,
@@ -196,22 +197,22 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 24,
-    color: 'black',
+    color: '#00599B',
     fontFamily: 'Inter-SemiBold',
   },
   postButton: {
     width: 99,
-    height: 36,
+    height: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#E2E2E2',
-    borderRadius: 8,
+    backgroundColor: '#00599B',
+    borderRadius: 4,
     left: 120,
   },
   postTextStyle: {
-    fontSize: 22,
+    fontSize: 16,
     fontFamily: 'Inter-Bold',
-    color: 'black',
+    color: '#FFFFFF',
   },
   createSection: {
     paddingTop: 10,
@@ -245,7 +246,7 @@ const styles = StyleSheet.create({
   categoryStyle: {
     width: 115,
     height: 25,
-    backgroundColor: '#39A5E1',
+    backgroundColor: '#00599B',
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center',
@@ -280,7 +281,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderTopWidth: 1,
+    borderTopColor: '#39A5E1',
     borderBottomWidth: 1,
+    borderBottomColor: '#39A5E1',
     paddingLeft: 25,
   },
   uploadMediaButton: {
@@ -289,15 +292,15 @@ const styles = StyleSheet.create({
     height: 67,
   },
   textUploadMedia: {
-    fontSize: 24,
+    fontSize: 12,
     fontFamily: 'Inter-Medium',
-    color: 'black',
+    color: '#617D97',
     marginLeft: 11,
   },
   textPreview: {
     fontSize: 22,
     fontFamily: 'Inter-Bold',
-    color: 'black',
+    color: '#373737',
     marginLeft: 15,
     marginTop: 16,
     marginBottom: 16,
