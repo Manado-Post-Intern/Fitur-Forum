@@ -1,24 +1,35 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { IcOption, IcClose } from '../../assets';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { Gap } from '../../../../components';
+/* eslint-disable prettier/prettier */
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import {IcOption, IcClose} from '../../assets';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
+import {Gap} from '../../../../components';
 
-const ReportBottomSheet = ({ onClose }) => {
+const ReportBottomSheet = ({onClose}) => {
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [currentContent, setCurrentContent] = useState('main');
   const [selectedOption, setSelectedOption] = useState('');
   const translateX = useSharedValue(300);
 
-  const handleOptionPress = (option) => {
+  const handleOptionPress = option => {
     setSelectedOption(option);
     setCurrentContent('detail');
     setIsDetailVisible(true);
-    translateX.value = withTiming(0, { duration: 500 });
+    translateX.value = withTiming(0, {duration: 500});
   };
 
   const handleBackPress = () => {
-    translateX.value = withTiming(300, { duration: 500 }, () => {
+    translateX.value = withTiming(300, {duration: 500}, () => {
       setIsDetailVisible(false);
       setCurrentContent('main');
       setSelectedOption('');
@@ -27,7 +38,7 @@ const ReportBottomSheet = ({ onClose }) => {
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: translateX.value }],
+      transform: [{translateX: translateX.value}],
     };
   });
 
@@ -41,37 +52,49 @@ const ReportBottomSheet = ({ onClose }) => {
 
       {!isDetailVisible && (
         <>
-          <Text style={styles.mainTitle}>Mengapa anda melaporkan postingan ini?</Text>
+          <Text style={styles.mainTitle}>
+            Mengapa anda melaporkan postingan ini?
+          </Text>
 
-          <TouchableOpacity style={styles.optionButton} onPress={() => handleOptionPress('Berita palsu')}>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => handleOptionPress('Berita palsu')}>
             <Text style={styles.optionText}>Berita palsu</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
 
           <View style={styles.separator} />
 
-          <TouchableOpacity style={styles.optionButton} onPress={() => handleOptionPress('Perundungan atau pelecehan')}>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => handleOptionPress('Perundungan atau pelecehan')}>
             <Text style={styles.optionText}>Perundungan atau pelecehan</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
 
           <View style={styles.separator} />
 
-          <TouchableOpacity style={styles.optionButton} onPress={() => handleOptionPress('Pelanggaran privasi')}>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => handleOptionPress('Pelanggaran privasi')}>
             <Text style={styles.optionText}>Pelanggaran privasi</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
 
           <View style={styles.separator} />
 
-          <TouchableOpacity style={styles.optionButton} onPress={() => handleOptionPress('Spam')}>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => handleOptionPress('Spam')}>
             <Text style={styles.optionText}>Spam</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
 
           <View style={styles.separator} />
 
-          <TouchableOpacity style={styles.optionButton} onPress={() => handleOptionPress('Lainnya')}>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => handleOptionPress('Lainnya')}>
             <Text style={styles.optionText}>Lainnya</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
@@ -82,7 +105,8 @@ const ReportBottomSheet = ({ onClose }) => {
         <Animated.View style={[styles.detailContainer, animatedStyle]}>
           <Text style={styles.detailTitle}>Anda akan mengirimkan laporan</Text>
           <Text style={styles.detailDescription}>
-            Kami hanya akan menghapus postingan yang tidak sesuai dengan Standar Komunitas.
+            Kami hanya akan menghapus postingan yang tidak sesuai dengan Standar
+            Komunitas.
           </Text>
 
           <Gap height={10} />
@@ -90,7 +114,9 @@ const ReportBottomSheet = ({ onClose }) => {
           <Text style={styles.reportDetailTitle}>Rincian Laporan</Text>
 
           <View style={styles.selectedOptionContainer}>
-            <Text style={styles.selectedOptionLabel}>Mengapa anda melaporkan postingan ini?</Text>
+            <Text style={styles.selectedOptionLabel}>
+              Mengapa anda melaporkan postingan ini?
+            </Text>
             <Text style={styles.selectedOption}>{selectedOption}</Text>
           </View>
 
@@ -104,14 +130,13 @@ const ReportBottomSheet = ({ onClose }) => {
               textAlignVertical="top"
             />
           </View>
-          <Gap height={25}/>
+          <Gap height={25} />
           <TouchableOpacity style={styles.sendButton}>
-              <Text style={styles.sendButtonText}>Kirim</Text>
-            </TouchableOpacity>
+            <Text style={styles.sendButtonText}>Kirim</Text>
+          </TouchableOpacity>
         </Animated.View>
       )}
     </View>
-    
   );
 };
 
@@ -121,6 +146,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    // position: 'absolute',
+    // marginLeft: 25,
   },
   headerTitle: {
     textAlign: 'center',
@@ -217,13 +244,13 @@ const styles = StyleSheet.create({
   sendButton: {
     backgroundColor: '#00599B',
     borderRadius: 5,
-    paddingVertical: 8, 
-    paddingHorizontal: 15, 
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     alignSelf: 'flex-end',
   },
   sendButtonText: {
     color: '#fff',
-    fontSize: 14, 
+    fontSize: 14,
     fontWeight: '600',
   },
 });
