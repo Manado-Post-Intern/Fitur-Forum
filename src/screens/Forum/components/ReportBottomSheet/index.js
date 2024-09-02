@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -6,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  Modal,
 } from 'react-native';
 import {IcOption, IcClose, IcBack} from '../../assets';
 import Animated, {
@@ -19,6 +19,8 @@ const ReportBottomSheet = ({onClose}) => {
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [currentContent, setCurrentContent] = useState('main');
   const [selectedOption, setSelectedOption] = useState('');
+  const [reasonText, setReasonText] = useState(''); 
+  const [isModalVisible, setIsModalVisible] = useState(false); // state untuk modal
   const translateX = useSharedValue(300);
 
   const handleOptionPress = option => {
@@ -33,7 +35,19 @@ const ReportBottomSheet = ({onClose}) => {
       setIsDetailVisible(false);
       setCurrentContent('main');
       setSelectedOption('');
+      setReasonText(''); 
     });
+  };
+
+  const handleSendPress = () => {
+    if (!isSendButtonDisabled()) {
+      setIsModalVisible(true); // Tampilkan modal ketika laporan berhasil dikirim
+    }
+  };
+
+  const handleBackToTimeline = () => {
+    setIsModalVisible(false); // Tutup modal
+    onClose(); // Kembali ke timeline atau menutup bottom sheet
   };
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -41,6 +55,10 @@ const ReportBottomSheet = ({onClose}) => {
       transform: [{translateX: translateX.value}],
     };
   });
+
+  const isSendButtonDisabled = () => {
+    return selectedOption === 'Lainnya' && reasonText.trim() === '';
+  };
 
   return (
     <View style={styles.container}>
@@ -136,16 +154,40 @@ const ReportBottomSheet = ({onClose}) => {
               multiline
               numberOfLines={4}
               textAlignVertical="top"
+              value={reasonText}
+              onChangeText={setReasonText} // Update state saat teks diubah
             />
           </View>
           <Gap height={25} />
-          <TouchableOpacity style={styles.sendButton}>
+          <TouchableOpacity
+            style={[
+              styles.sendButton,
+              isSendButtonDisabled() && styles.sendButtonDisabled,
+            ]}
+            disabled={isSendButtonDisabled()} // Disable tombol jika kondisi terpenuhi
+            onPress={handleSendPress} // Panggil fungsi untuk mengirim laporan
+          >
             <Text style={styles.sendButtonText}>Kirim</Text>
           </TouchableOpacity>
         </Animated.View>
       )}
+
+      <Modal
+        transparent={true}
+        visible={isModalVisible}
+        animationType="fade"
+        onRequestClose={() => setIsModalVisible(false)}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>Laporan berhasil dikirim</Text>
+            <TouchableOpacity style={styles.modalButton} onPress={handleBackToTimeline}>
+              <Text style={styles.modalButtonText}>Kembali ke Timeline</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
-  );  
+  );
 };
 
 export default ReportBottomSheet;
@@ -154,8 +196,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    // position: 'absolute',
-    // marginLeft: 25,
   },
   headerTitle: {
     textAlign: 'center',
@@ -256,17 +296,48 @@ const styles = StyleSheet.create({
   },
   sendButton: {
     backgroundColor: '#00599B',
-    borderRadius: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 15,
-    paddingHorizontal: 15,
-    justifyContent: 'center', 
-    alignItems: 'center',  
+  },
+  sendButtonDisabled: {
+    backgroundColor: '#B0B0B0',
   },
   sendButtonText: {
-    color: '#fff',
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: '600',
+    color: '#FFF',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    width: 300,
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#000',
+    marginBottom: 20,
     textAlign: 'center',
   },
-  
+  modalButton: {
+    backgroundColor: '#00599B',
+    borderRadius: 4,
+    paddingVertical: 7,
+    paddingHorizontal: 30,
+  },
+  modalButtonText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FFF',
+  },
 });
