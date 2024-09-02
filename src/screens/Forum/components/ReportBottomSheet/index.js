@@ -14,14 +14,26 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {Gap} from '../../../../components';
+import {runOnJS} from 'react-native-reanimated';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const ReportBottomSheet = ({onClose}) => {
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [currentContent, setCurrentContent] = useState('main');
   const [selectedOption, setSelectedOption] = useState('');
+<<<<<<< HEAD
   const [reasonText, setReasonText] = useState(''); 
   const [isModalVisible, setIsModalVisible] = useState(false); // state untuk modal
+=======
+  const [statusText, setStatusText] = useState('');
+>>>>>>> 9575f2efebb95a87085e6063123b4923c61ece2a
   const translateX = useSharedValue(300);
+
+  const handleTextChange = text => {
+    if (text.length <= 280) {
+      setStatusText(text);
+    }
+  };
 
   const handleOptionPress = option => {
     setSelectedOption(option);
@@ -30,7 +42,7 @@ const ReportBottomSheet = ({onClose}) => {
     translateX.value = withTiming(0, {duration: 500});
   };
 
-  const handleBackPress = () => {
+  const handleShowMainContent = () => {
     translateX.value = withTiming(300, {duration: 500}, () => {
       setIsDetailVisible(false);
       setCurrentContent('main');
@@ -62,62 +74,56 @@ const ReportBottomSheet = ({onClose}) => {
 
   return (
     <View style={styles.container}>
-      {isDetailVisible && (
-        <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
-          <IcBack /> 
-        </TouchableOpacity>
-      )}
-      
       <Text style={styles.headerTitle}>Laporkan</Text>
-      
+
       <TouchableOpacity style={styles.closeButton} onPress={onClose}>
         <IcClose />
       </TouchableOpacity>
-      
+
       <View style={styles.separator} />
-  
+
       {!isDetailVisible && (
         <>
           <Text style={styles.mainTitle}>
             Mengapa anda melaporkan postingan ini?
           </Text>
-  
+
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Berita palsu')}>
             <Text style={styles.optionText}>Berita palsu</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
-  
+
           <View style={styles.separator} />
-  
+
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Perundungan atau pelecehan')}>
             <Text style={styles.optionText}>Perundungan atau pelecehan</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
-  
+
           <View style={styles.separator} />
-  
+
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Pelanggaran privasi')}>
             <Text style={styles.optionText}>Pelanggaran privasi</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
-  
+
           <View style={styles.separator} />
-  
+
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Spam')}>
             <Text style={styles.optionText}>Spam</Text>
             <IcOption style={styles.optionIcon} />
           </TouchableOpacity>
-  
+
           <View style={styles.separator} />
-  
+
           <TouchableOpacity
             style={styles.optionButton}
             onPress={() => handleOptionPress('Lainnya')}>
@@ -126,7 +132,7 @@ const ReportBottomSheet = ({onClose}) => {
           </TouchableOpacity>
         </>
       )}
-  
+
       {isDetailVisible && (
         <Animated.View style={[styles.detailContainer, animatedStyle]}>
           <Text style={styles.detailTitle}>Anda akan mengirimkan laporan</Text>
@@ -134,30 +140,38 @@ const ReportBottomSheet = ({onClose}) => {
             Kami hanya akan menghapus postingan yang tidak sesuai dengan Standar
             Komunitas.
           </Text>
-  
+
           <Gap height={10} />
-  
+
           <Text style={styles.reportDetailTitle}>Rincian Laporan</Text>
-  
-          <View style={styles.selectedOptionContainer}>
-            <Text style={styles.selectedOptionLabel}>
-              Mengapa anda melaporkan postingan ini?
-            </Text>
-            <Text style={styles.selectedOption}>{selectedOption}</Text>
-          </View>
-  
+          <TouchableOpacity onPress={handleShowMainContent}>
+            <View style={styles.selectedOptionContainer}>
+              <Text style={styles.selectedOptionLabel}>
+                Mengapa anda melaporkan postingan ini?
+              </Text>
+              <Text style={styles.selectedOption}>{selectedOption}</Text>
+            </View>
+          </TouchableOpacity>
+
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.textInput}
               placeholder="Berikan kami penjelasan..."
               placeholderTextColor="rgba(0, 0, 0, 0.6)"
-              multiline
+              multiline={true}
               numberOfLines={4}
               textAlignVertical="top"
+<<<<<<< HEAD
               value={reasonText}
               onChangeText={setReasonText} // Update state saat teks diubah
+=======
+              value={statusText}
+              onChangeText={handleTextChange}
+>>>>>>> 9575f2efebb95a87085e6063123b4923c61ece2a
             />
+            <Text style={styles.characterCount}>{statusText.length}/280</Text>
           </View>
+
           <Gap height={25} />
           <TouchableOpacity
             style={[
@@ -202,7 +216,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: '#000',
-    marginBottom: 20,
+    marginTop: -10,
+    marginBottom: 10,
+  },
+  characterCount: {
+    position: 'absolute',
+    top: 170,
+    left: 310,
+    fontSize: 12,
+    fontFamily: 'Inter-Regular',
+    color: 'rgba(0, 0, 0, 0.6)',
   },
   closeButton: {
     position: 'absolute',
@@ -218,6 +241,7 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#ADA5A5',
     marginVertical: 5,
+    marginHorizontal: -20,
   },
   mainTitle: {
     fontSize: 24,
@@ -243,15 +267,15 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   detailTitle: {
-    fontSize: 23,
+    fontSize: 22,
     fontWeight: '700',
     color: '#000',
     marginBottom: 10,
   },
   detailDescription: {
-    fontSize: 21,
+    fontSize: 17,
     color: '#555',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   reportDetailTitle: {
     fontSize: 20,
@@ -283,8 +307,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0',
     borderRadius: 5,
     paddingHorizontal: 10,
-    paddingTop: 8,
-    height: 150,
+    height: 200,
   },
   textInput: {
     flex: 1,
@@ -292,7 +315,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#000',
     height: '100%',
-    textAlignVertical: 'top',
+    marginRight: 50,
   },
   sendButton: {
     backgroundColor: '#00599B',
@@ -300,9 +323,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 15,
+<<<<<<< HEAD
   },
   sendButtonDisabled: {
     backgroundColor: '#B0B0B0',
+=======
+    paddingHorizontal: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+>>>>>>> 9575f2efebb95a87085e6063123b4923c61ece2a
   },
   sendButtonText: {
     fontSize: 18,
@@ -329,6 +358,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
+<<<<<<< HEAD
   modalButton: {
     backgroundColor: '#00599B',
     borderRadius: 4,
@@ -340,4 +370,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFF',
   },
+=======
+>>>>>>> 9575f2efebb95a87085e6063123b4923c61ece2a
 });
