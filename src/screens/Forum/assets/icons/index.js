@@ -13,6 +13,7 @@ import IcBack from './ic-back.svg';
 import Downvoted from './Downvoted.svg';
 import IcClose from './IcClose.svg';
 import IcOption from './IcOption.svg';
+import IcCheckbox from './checkbox-circle-line.svg';
 
 export {
   IcSearchBlue,
@@ -29,4 +30,5 @@ export {
   IcClose,
   IcOption,
   Downvoted,
+  IcCheckbox
 };
