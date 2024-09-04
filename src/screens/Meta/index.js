@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {FlatList, Image, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {Gap, NotFound, TextInter, TopBar} from '../../components';
