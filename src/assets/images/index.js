@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import IMGMetaLogo from './img-meta-logo.png';
 import IMGGlow from './img-glow.png';
 import IMGGlowBR from './img-glow-br.png';
@@ -71,6 +72,7 @@ import IMGDummyProperty from './img-dummy-property.png';
 import IMGBanner1 from './img-banner-1.png';
 import IMGBanner2 from './img-banner-2.png';
 import IMGLotteryWinner from './img-lottery-winner.png';
+import IMGForum from './img-forum.png';
 
 export {
   IMGMetaLogo,
@@ -146,4 +148,5 @@ export {
   IMGBanner1,
   IMGBanner2,
   IMGLotteryWinner,
+  IMGForum,
 };

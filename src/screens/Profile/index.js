@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Image,
   Platform,

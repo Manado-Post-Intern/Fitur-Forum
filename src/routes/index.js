@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
@@ -22,6 +23,7 @@ import {
   SideMenu,
   SignIn,
   Splash,
+  StatusTimeline,
   Trending,
   Preview as AdsPreview,
   Profile,
@@ -67,7 +69,11 @@ const HomeTab = () => {
           minHeight: 80,
         },
       })}>
-      <Tab.Screen name="Trending" component={Trending} />
+      <Tab.Screen
+        name="Forum"
+        component={StatusTimeline}
+        options={{headerShown: false}}
+      />
       <Tab.Screen
         name="Region"
         component={Region}
@@ -115,6 +121,7 @@ const PrivateRoutes = () => {
       <Stack.Screen name="MoreNews" component={MoreNews} />
       <Stack.Screen name="MetaMore" component={MetaMore} />
       <Stack.Screen name="WriteNews" component={WriteNews} />
+      {/* <Stack.Screen name="Forum" component={StatusTimeline} /> */}
       <Stack.Screen
         name="ChannelTagSelection"
         component={ChannelTagSelection}

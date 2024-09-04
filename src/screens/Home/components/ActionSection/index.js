@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 import {Image, Linking, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {
+  IMGForum,
   IMGForYou,
   IMGLottery,
   IMGRowAds,
@@ -61,12 +63,12 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: '10%',
+    paddingHorizontal: '7%',
   },
   action: {
     alignItems: 'center',
     height: 75,
-    width: 60,
+    width: 75,
     justifyContent: 'space-between',
   },
   square: {

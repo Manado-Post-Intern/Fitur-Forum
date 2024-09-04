@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export const palette = {
   blue: '#054783',
   blue2: '#39A5E1',

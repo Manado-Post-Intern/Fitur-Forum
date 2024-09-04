@@ -26,14 +26,13 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -48,5 +47,44 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NotoSerifGeorgian-Black.ttf</string>
+		<string>NotoSerifGeorgian-Bold.ttf</string>
+		<string>NotoSerifGeorgian-ExtraBold.ttf</string>
+		<string>NotoSerifGeorgian-ExtraLight.ttf</string>
+		<string>NotoSerifGeorgian-Light.ttf</string>
+		<string>NotoSerifGeorgian-Medium.ttf</string>
+		<string>NotoSerifGeorgian-Regular.ttf</string>
+		<string>NotoSerifGeorgian-SemiBold.ttf</string>
+		<string>NotoSerifGeorgian-Thin.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-Black.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-Bold.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-ExtraBold.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-ExtraLight.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-Light.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-Medium.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-Regular.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-SemiBold.ttf</string>
+		<string>NotoSerifGeorgian_Condensed-Thin.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-Black.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-Bold.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-ExtraBold.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-ExtraLight.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-Light.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-Medium.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-Regular.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-SemiBold.ttf</string>
+		<string>NotoSerifGeorgian_ExtraCondensed-Thin.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-Black.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-Bold.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-ExtraBold.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-ExtraLight.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-Light.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-Medium.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-Regular.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-SemiBold.ttf</string>
+		<string>NotoSerifGeorgian_SemiCondensed-Thin.ttf</string>
+	</array>
 </dict>
 </plist>

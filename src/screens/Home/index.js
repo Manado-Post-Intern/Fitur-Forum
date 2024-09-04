@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {theme} from '../../assets';
