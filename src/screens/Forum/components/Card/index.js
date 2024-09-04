@@ -1,4 +1,3 @@
-
 /* eslint-disable prettier/prettier */
 
 import React, {useState, useEffect} from 'react';
@@ -41,7 +40,7 @@ const Card = ({onReportPress}) => {
   };
 
   const fetchPosts = async () => {
-    setLoading(true); // Start loading
+    setLoading(true); // Mulai loading
     try {
       const snapshot = await database().ref('forum/post').once('value');
       const data = snapshot.val();
@@ -74,12 +73,12 @@ const Card = ({onReportPress}) => {
     } catch (error) {
       console.error('Error fetching posts: ', error);
     } finally {
-      setLoading(false); // Finish loading
+      setLoading(false); // Selesai loading
     }
   };
 
   useEffect(() => {
-    fetchPosts(); // Call fetchPosts when component mounts
+    fetchPosts(); // Panggil fetchPosts saat komponen dimount
   }, []);
 
   const handleUpvote = async (
@@ -188,12 +187,12 @@ const Card = ({onReportPress}) => {
               styles.cardContainer,
               post.type !== 'photo' && styles.cardContainerNonPhoto,
             ]}>
-            {/* kita ada ubah di sini di operator || dari && */}
-            {post.type === 'photo' || post.image && (
+            {post.type === 'photo' && post.image && (
               <View style={styles.cardImage}>
                 <Image source={{uri: post.image}} style={styles.postImage} />
               </View>
             )}
+
             <View style={styles.userInformationContainer}>
               <View style={styles.userInformation}>
                 <View style={styles.userProfile}>
@@ -299,9 +298,10 @@ const styles = StyleSheet.create({
     height: 240,
   },
   cardImage: {
-    width: 380,
+    width: 360,
     height: 180,
     marginTop: 10,
+    right: 10,
   },
   postImage: {
     width: '100%',
