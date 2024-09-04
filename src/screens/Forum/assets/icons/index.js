@@ -14,6 +14,12 @@ import Downvoted from './Downvoted.svg';
 import IcClose from './IcClose.svg';
 import IcOption from './IcOption.svg';
 import IcCheckbox from './checkbox-circle-line.svg';
+import IcBackBlack from './ic-back-black.svg';
+import IcDropdown from './ic-dropdown.svg';
+import IcUploadImage from './ic-upload-image.svg';
+import IcClose from './icon-close.svg';
+import IcUploadGrey from './icon-upload-image-grey.svg';
+import IcBackBlue from './icon-back-blue.svg';
 
 export {
   IcSearchBlue,
@@ -31,4 +37,10 @@ export {
   IcOption,
   Downvoted,
   IcCheckbox
+  IcBackBlack,
+  IcDropdown,
+  IcUploadImage,
+  IcClose,
+  IcUploadGrey,
+  IcBackBlue,
 };

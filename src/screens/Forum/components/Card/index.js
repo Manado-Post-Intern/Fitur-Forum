@@ -41,7 +41,7 @@ const Card = ({onReportPress}) => {
   };
 
   const fetchPosts = async () => {
-    setLoading(true); // Mulai loading
+    setLoading(true); // Start loading
     try {
       const snapshot = await database().ref('forum/post').once('value');
       const data = snapshot.val();
@@ -74,12 +74,12 @@ const Card = ({onReportPress}) => {
     } catch (error) {
       console.error('Error fetching posts: ', error);
     } finally {
-      setLoading(false); // Selesai loading
+      setLoading(false); // Finish loading
     }
   };
 
   useEffect(() => {
-    fetchPosts(); // Panggil fetchPosts saat komponen dimount
+    fetchPosts(); // Call fetchPosts when component mounts
   }, []);
 
   const handleUpvote = async (
@@ -188,7 +188,8 @@ const Card = ({onReportPress}) => {
               styles.cardContainer,
               post.type !== 'photo' && styles.cardContainerNonPhoto,
             ]}>
-            {post.type === 'photo' && (
+            {/* kita ada ubah di sini di operator || dari && */}
+            {post.type === 'photo' || post.image && (
               <View style={styles.cardImage}>
                 <Image source={{uri: post.image}} style={styles.postImage} />
               </View>
