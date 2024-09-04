@@ -1,3 +1,4 @@
+
 /* eslint-disable prettier/prettier */
 
 import React, {useState, useEffect} from 'react';
@@ -19,11 +20,25 @@ import {
   IcWarning,
   IMGprofile,
 } from '../../assets';
-import { RefreshControl } from 'react-native-gesture-handler';
+import {RefreshControl} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
+import ReportBottomSheet from '../ReportBottomSheet';
 
-const Card = () => {
+const Card = ({onReportPress}) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const navigation = useNavigation();
+  const [selectedPostId, setSelectedPostId] = useState(null);
+
+  const handleShowReportSheet = postId => {
+    setSelectedPostId(postId);
+    setBottomSheetVisible(true);
+  };
+
+  const handleCloseReportSheet = () => {
+    setBottomSheetVisible(false);
+  };
 
   const fetchPosts = async () => {
     setLoading(true); // Start loading
@@ -189,7 +204,7 @@ const Card = () => {
                 <Text style={styles.userCreatedAt}>13 jam</Text>
               </View>
               <View style={styles.warningIcon}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onReportPress}>
                   <IcWarning />
                 </TouchableOpacity>
               </View>
@@ -257,6 +272,12 @@ const Card = () => {
           </View>
         ))}
       </View>
+      {isBottomSheetVisible && (
+        <ReportBottomSheet
+          isVisible={isBottomSheetVisible}
+          onClose={handleCloseReportSheet}
+        />
+      )}
     </ScrollView>
   );
 };
@@ -324,9 +345,9 @@ const styles = StyleSheet.create({
   warningIcon: {
     position: 'absolute',
     right: 20,
-    top: '50%',
     width: 24,
     height: 24,
+    top: 25,
   },
   caption: {
     width: 343,
