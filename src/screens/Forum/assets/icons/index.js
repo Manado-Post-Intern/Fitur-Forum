@@ -17,6 +17,7 @@ import IcClose from './icon-close.svg';
 import IcUploadGrey from './icon-upload-image-grey.svg';
 import IcBackBlue from './icon-back-blue.svg';
 
+
 export {
   IcSearchBlue,
   IcWarning,
