@@ -189,7 +189,7 @@ const Card = ({onReportPress}) => {
               post.type !== 'photo' && styles.cardContainerNonPhoto,
             ]}>
             {/* kita ada ubah di sini di operator || dari && */}
-            {post.type === 'photo' || post.image && (
+            {post.type === 'photo' && post.image && (
               <View style={styles.cardImage}>
                 <Image source={{uri: post.image}} style={styles.postImage} />
               </View>
