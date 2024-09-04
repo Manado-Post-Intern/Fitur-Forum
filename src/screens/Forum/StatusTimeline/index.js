@@ -20,7 +20,7 @@ const StatusTimeline = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['90%'], []);
+  const snapPoints = useMemo(() => ['100%'], []);
 
   const openBottomSheet = () => {
     setBottomSheetVisible(true);
@@ -56,7 +56,7 @@ const StatusTimeline = ({navigation}) => {
         <Gap height={5} />
         <ScrollView style={styles.content}>
           <Card onReportPress={openBottomSheet} />
-          <Gap height={90} />
+          <Gap height={120} />
         </ScrollView>
         {isBottomSheetVisible && (
           <BottomSheet
@@ -78,12 +78,12 @@ export default StatusTimeline;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#B0DBF3',
+    backgroundColor: '#E7F0F5',
     justifyContent: 'center',
     alignItems: 'center',
   },
   content: {
-    backgroundColor: '#B0DBF3',
+    backgroundColor: '#E7F0F5',
   },
   createStatusButton: {
     flexDirection: 'row',

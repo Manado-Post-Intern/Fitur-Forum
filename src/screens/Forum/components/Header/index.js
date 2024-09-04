@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {React, useState} from 'react';
-import {IcBack, IMGMPTextPrimary} from '../../../../assets';
+import {IcBack, IMGLogoManado, IMGMPTextPrimary} from '../../../../assets';
 import {IcSearchBlue} from '../../assets';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
@@ -21,8 +21,7 @@ const Header = ({onRefresh}) => {
         {/* <TouchableOpacity onPress={() => navigation.goBack()}>
           <IcBack style={styles.backButtonStyle} />
         </TouchableOpacity> */}
-
-        <Text style={styles.laporTextStyle}>LAPOR</Text>
+        <Image source={IMGMPTextPrimary} style={styles.primaryTextMP} />
         <View style={styles.searchIconSize}>
           <TouchableOpacity onPress={handleRefresh}>
             <IcSearchBlue style={styles.searchIcon} />
@@ -60,12 +59,12 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
   },
-  // primaryTextMP: {
-  //   height: 19,
-  //   width: 140,
-  //   marginLeft: 21,
-  //   marginTop: 3,
-  // },
+  primaryTextMP: {
+    height: 16,
+    width: 139,
+    marginLeft: 22,
+    bottom: 7.7,
+  },
   backButtonStyle: {
     marginTop: 3,
     marginLeft: 5,
