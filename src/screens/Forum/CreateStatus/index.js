@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0, // Menambahkan padding bottom jika ada gambar/teks
   },
   previewSection: {
-    backgroundColor: '#B0DBF3',
+    backgroundColor: '#E7F0F5',
   },
   userInformationPreview: {
     flexDirection: 'row',

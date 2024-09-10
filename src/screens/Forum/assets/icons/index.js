@@ -19,6 +19,7 @@ import IcDropdown from './ic-dropdown.svg';
 import IcUploadImage from './ic-upload-image.svg';
 import IcUploadGrey from './icon-upload-image-grey.svg';
 import IcBackBlue from './icon-back-blue.svg';
+import IcSend from './Icon-Send.svg';
 
 export {
   IcSearchBlue,
@@ -41,4 +42,5 @@ export {
   IcUploadImage,
   IcUploadGrey,
   IcBackBlue,
+  IcSend,
 };
