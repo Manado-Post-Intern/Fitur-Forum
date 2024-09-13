@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {IcBackBlue, IcSend} from '../assets';
+import IcSendFix from '../assets/icons/Icon-Send-Fix.svg';
 import {
   ScrollView,
   TextInput,
@@ -19,6 +20,17 @@ const DetailStatus = () => {
   // Ambil data post yang dikirim dari navigasi
   const {post} = route.params;
 
+  // State untuk melacak teks komentar
+  const [commentText, setCommentText] = useState('');
+
+  // Fungsi untuk mengirim komentar
+  const handleSendComment = () => {
+    if (commentText.length > 0) {
+      console.log('Mengirim komentar:', commentText);
+      setCommentText(''); // Mengosongkan kolom komentar setelah mengirim
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -35,7 +47,7 @@ const DetailStatus = () => {
         <Comment
           username={'Putri Kalantow'}
           Type={'replied'}
-          value={'Otolong kasiang sekali doeh dia ini'}
+          value={'Astaga, itu di Manado bagian mana?'}
         />
         <Comment
           username={'Rikard Yong'}
@@ -44,11 +56,23 @@ const DetailStatus = () => {
       </ScrollView>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Masukkan komentar anda"
+          placeholder="Masukkan komentar anda..."
           style={styles.commentInput}
           multiline={true} // Mengizinkan multi-baris
+          value={commentText}
+          onChangeText={text => setCommentText(text)}
         />
-        <IcSend style={styles.sendStyle} />
+        <TouchableOpacity
+          style={styles.sendButton}
+          onPress={handleSendComment}
+          disabled={commentText.length === 0}
+        >
+          {commentText.length === 0 ? (
+            <IcSend style={styles.sendIcon} />
+          ) : (
+            <IcSendFix style={styles.sendIcon} />
+          )}
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -58,7 +82,7 @@ export default DetailStatus;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E7F0F5',
+    backgroundColor: '#FFFFFF',
     height: '100%',
   },
   headerContainer: {
@@ -90,31 +114,32 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   commentInput: {
-    width: '95%',
+    flex: 1,
     height: 50,
-    maxWidth: 400,
     paddingHorizontal: 15,
     paddingRight: 50,
     backgroundColor: '#F1F2F6',
     borderRadius: 16,
-    borderWidth: 0.8,
     borderColor: '#66686A',
     marginHorizontal: 5,
-    top: 10,
     flexWrap: 'wrap',
   },
   inputContainer: {
-    justifyContent: 'center',
-    Width: 430,
-    height: 80,
-    backgroundColor: '#E7F0F5',
-    borderTopColor: '#66686A',
-    borderTopWidth: 1,
     flexDirection: 'row',
+    alignItems: 'center',
+    borderTopColor: '#66686A',
+    borderTopWidth: 0.2,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    backgroundColor: '#FFFFFF',
   },
-  sendStyle: {
-    position: 'absolute',
-    right: 25,
-    top: 25,
+  sendButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  sendIcon: {
+    width: 24,
+    height: 24,
   },
 });
