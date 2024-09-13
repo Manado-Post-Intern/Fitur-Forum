@@ -43,7 +43,7 @@ import {screenHeightPercentage} from '../utils';
 import {BottomTabBar, TopBar} from '../components';
 import {AuthContext} from '../context/AuthContext';
 import CreateStatus from '../screens/Forum/CreateStatus';
-import DetailStatus from '../screens/Forum/DetailStatus/index.';
+import DetailStatus from '../screens/Forum/DetailStatus';
 
 /**
  * Home Bottom Tab Bar Navigation Routes

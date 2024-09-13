@@ -32,9 +32,9 @@ const Comment = ({Type, username, value}) => {
       </View>
       {Type === 'replied' && (
         <>
-          <Reply username={"Ta'Litha"} replyValue={'Selamat kamu kena prank'} />
-          <Reply username={'Richard Jong'} replyValue={'Tidak berakal!'} />
-          <Reply username={"Ta'Litha"} replyValue={'Siapa sangka'} />
+          <Reply username={"Ta'Litha"} replyValue={'Di Malalayang, di Griya Pantai kak.'} />
+          <Reply username={'Richard Jong'} replyValue={'Hati-hati bagi warga di area sekitar Kebakaran. Utamakan keselamatan!'} />
+          <Reply username={"Ta'Litha"} replyValue={'Bencana seperti ini mengingatkan kita pentingnya kesiapsiagaan! Stay safe!'} />
         </>
       )}
 
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingBottom: 10,
     width: 320,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F1F2F6',
     borderRadius: 8,
     marginLeft: 30,
     top: 10,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     width: 270,
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: '#373737',
+    color: '#000',
     left: 10,
     top: 5,
   },
