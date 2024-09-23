@@ -23,12 +23,24 @@ const DetailStatus = () => {
   // State untuk melacak teks komentar
   const [commentText, setCommentText] = useState('');
 
+  // State untuk melacak username yang sedang dibalas
+  const [replyingTo, setReplyingTo] = useState(null);
+
   // Fungsi untuk mengirim komentar
   const handleSendComment = () => {
     if (commentText.length > 0) {
-      console.log('Mengirim komentar:', commentText);
+      console.log(
+        'Mengirim komentar:',
+        replyingTo ? `Membalas ${replyingTo}: ${commentText}` : commentText,
+      );
       setCommentText(''); // Mengosongkan kolom komentar setelah mengirim
+      setReplyingTo(null); // Reset state setelah mengirim komentar
     }
+  };
+
+  // Fungsi untuk menangani klik tombol balas
+  const handleReplyPress = username => {
+    setReplyingTo(username);
   };
 
   return (
@@ -48,15 +60,26 @@ const DetailStatus = () => {
           username={'Putri Kalantow'}
           Type={'replied'}
           value={'Astaga, itu di Manado bagian mana?'}
+          onReplyPress={handleReplyPress}
         />
         <Comment
           username={'Rikard Yong'}
           value={'Tolong urus ini yang komen tidak berakal'}
+          onReplyPress={handleReplyPress}
+        />
+        <Comment
+          username={'Shell X Wonuk'}
+          value={'saya suka wonuk'}
+          onReplyPress={handleReplyPress}
         />
       </ScrollView>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Masukkan komentar anda..."
+          placeholder={
+            replyingTo
+              ? `Membalas ${replyingTo}...`
+              : 'Masukkan komentar anda...'
+          }
           style={styles.commentInput}
           multiline={true} // Mengizinkan multi-baris
           value={commentText}
@@ -65,8 +88,7 @@ const DetailStatus = () => {
         <TouchableOpacity
           style={styles.sendButton}
           onPress={handleSendComment}
-          disabled={commentText.length === 0}
-        >
+          disabled={commentText.length === 0}>
           {commentText.length === 0 ? (
             <IcSend style={styles.sendIcon} />
           ) : (

@@ -1,12 +1,44 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {IcWarning, IMGprofile} from '../../assets';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Gap} from '../../../../components';
 import Reply from '../Reply';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Comment = ({Type, username, value}) => {
+const Comment = ({Type, username, value, onReplyPress}) => {
+  const [liked, setLiked] = useState(false);
+
+  // Key untuk menyimpan status liked di AsyncStorage
+  const storageKey = `liked_${username}`;
+
+  useEffect(() => {
+    const getLikedStatus = async () => {
+      try {
+        const savedLikedStatus = await AsyncStorage.getItem(storageKey);
+        if (savedLikedStatus !== null) {
+          setLiked(JSON.parse(savedLikedStatus));
+        }
+      } catch (error) {
+        console.error('Failed to load liked status', error);
+      }
+    };
+
+    getLikedStatus();
+  }, [storageKey]);
+
+  const handleLikePress = async () => {
+    const newLikedStatus = !liked;
+    setLiked(newLikedStatus);
+
+    try {
+      await AsyncStorage.setItem(storageKey, JSON.stringify(newLikedStatus));
+    } catch (error) {
+      console.error('Failed to save liked status', error);
+    }
+  };
+
   return (
     <View>
       <View style={styles.commentContainer}>
@@ -27,14 +59,33 @@ const Comment = ({Type, username, value}) => {
       </View>
       <View style={styles.userResponse}>
         <Text style={styles.commentHours}>12j</Text>
-        <Text style={styles.likeButton}>Suka</Text>
-        <Text style={styles.replyButton}>Balas</Text>
+        <TouchableOpacity onPress={handleLikePress}>
+          <Text style={[styles.likeButton, liked && styles.liked]}>
+            {liked ? 'Suka(1)' : 'Suka'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => onReplyPress(username)}>
+          <Text style={styles.replyButton}>Balas</Text>
+        </TouchableOpacity>
       </View>
       {Type === 'replied' && (
         <>
-          <Reply username={"Ta'Litha"} replyValue={'Di Malalayang, di Griya Pantai kak.'} />
-          <Reply username={'Richard Jong'} replyValue={'Hati-hati bagi warga di area sekitar Kebakaran. Utamakan keselamatan!'} />
-          <Reply username={"Ta'Litha"} replyValue={'Bencana seperti ini mengingatkan kita pentingnya kesiapsiagaan! Stay safe!'} />
+          <Reply
+            username={"Ta'Litha"}
+            replyValue={'Di Malalayang, di Griya Pantai kak.'}
+          />
+          <Reply
+            username={'Richard Jong'}
+            replyValue={
+              'Hati-hati bagi warga di area sekitar Kebakaran. Utamakan keselamatan!'
+            }
+          />
+          <Reply
+            username={"Ta'Litha"}
+            replyValue={
+              'Bencana seperti ini mengingatkan kita pentingnya kesiapsiagaan! Stay safe!'
+            }
+          />
         </>
       )}
 
@@ -104,6 +155,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Inter-Medium',
     marginLeft: 19,
+  },
+  liked: {
+    color: '#39A5E1', // Warna berubah menjadi biru saat "liked"
   },
   replyButton: {
     marginLeft: 19,

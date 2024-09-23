@@ -1,11 +1,42 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {IcWarning, IMGprofile} from '../../assets';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Gap} from '../../../../components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Reply = ({replyValue, username}) => {
+  const [liked, setLiked] = useState(false);
+
+  const storageKey = `liked_${username}`;
+
+  useEffect(() => {
+    const getLikedStatus = async () => {
+      try {
+        const savedLikedStatus = await AsyncStorage.getItem(storageKey);
+        if (savedLikedStatus !== null) {
+          setLiked(JSON.parse(savedLikedStatus));
+        }
+      } catch (error) {
+        console.error('Failed to load liked status', error);
+      }
+    };
+
+    getLikedStatus();
+  }, [storageKey]);
+
+  const handleLikePress = async () => {
+    const newLikedStatus = !liked;
+    setLiked(newLikedStatus);
+
+    try {
+      await AsyncStorage.setItem(storageKey, JSON.stringify(newLikedStatus));
+    } catch (error) {
+      console.error('Failed to save liked status', error);
+    }
+  };
+
   return (
     <View>
       <View style={styles.commentContainer}>
@@ -26,8 +57,11 @@ const Reply = ({replyValue, username}) => {
       </View>
       <View style={styles.userResponse}>
         <Text style={styles.commentHours}>12j</Text>
-        <Text style={styles.likeButton}>Suka</Text>
-        <Text style={styles.replyButton}>Balas</Text>
+        <TouchableOpacity onPress={handleLikePress}>
+          <Text style={[styles.likeButton, liked && styles.liked]}>
+            {liked ? 'Suka(1)' : 'Suka'}
+          </Text>
+        </TouchableOpacity>
       </View>
       <Gap height={5} />
     </View>
@@ -78,6 +112,7 @@ const styles = StyleSheet.create({
     right: 6,
   },
   commentValue: {
+    width: 250,
     fontSize: 16,
     fontFamily: 'Inter-Regular',
     color: '#373737',
@@ -102,5 +137,8 @@ const styles = StyleSheet.create({
     marginLeft: 19,
     fontSize: 12,
     fontFamily: 'Inter-Medium',
+  },
+  liked: {
+    color: '#39A5E1', // Warna berubah menjadi biru saat "liked"
   },
 });
