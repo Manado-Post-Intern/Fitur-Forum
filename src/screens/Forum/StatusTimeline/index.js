@@ -45,7 +45,9 @@ const StatusTimeline = ({navigation}) => {
       <View style={styles.container} key={refreshKey}>
         <Header onRefresh={handleRefresh} />
         <Gap height={10} />
-        <TouchableOpacity style={styles.createStatusButton}>
+        <TouchableOpacity
+          style={styles.createStatusButton}
+          onPress={() => navigation.navigate('CreateStatus')}>
           <View style={styles.createStatusButton}>
             <Text style={styles.createStatusTextStyle}>Tulis Laporan Anda</Text>
             <IcPencil />

@@ -17,7 +17,6 @@ import IcCheckbox from './checkbox-circle-line.svg';
 import IcBackBlack from './ic-back-black.svg';
 import IcDropdown from './ic-dropdown.svg';
 import IcUploadImage from './ic-upload-image.svg';
-import IcClose from './icon-close.svg';
 import IcUploadGrey from './icon-upload-image-grey.svg';
 import IcBackBlue from './icon-back-blue.svg';
 
@@ -36,11 +35,10 @@ export {
   IcClose,
   IcOption,
   Downvoted,
-  IcCheckbox
+  IcCheckbox,
   IcBackBlack,
   IcDropdown,
   IcUploadImage,
-  IcClose,
   IcUploadGrey,
   IcBackBlue,
 };

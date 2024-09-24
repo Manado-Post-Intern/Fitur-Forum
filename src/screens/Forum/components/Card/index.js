@@ -1,6 +1,4 @@
-
 /* eslint-disable prettier/prettier */
-
 import React, {useState, useEffect} from 'react';
 import {
   ScrollView,
@@ -23,6 +21,7 @@ import {
 import {RefreshControl} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import ReportBottomSheet from '../ReportBottomSheet';
+import auth from '@react-native-firebase/auth';
 
 const Card = ({onReportPress}) => {
   const [posts, setPosts] = useState([]);
@@ -30,6 +29,7 @@ const Card = ({onReportPress}) => {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const navigation = useNavigation();
   const [selectedPostId, setSelectedPostId] = useState(null);
+  const [profileImages, setProfileImages] = useState({});
 
   const handleShowReportSheet = postId => {
     setSelectedPostId(postId);
@@ -41,7 +41,7 @@ const Card = ({onReportPress}) => {
   };
 
   const fetchPosts = async () => {
-    setLoading(true); // Start loading
+    setLoading(true); // Mulai loading
     try {
       const snapshot = await database().ref('forum/post').once('value');
       const data = snapshot.val();
@@ -69,17 +69,30 @@ const Card = ({onReportPress}) => {
           }),
         );
 
+        const profileImagesData = {};
+        await Promise.all(
+          updatedPostsArray.map(async post => {
+            const user = await database()
+              .ref(`users/${post.userId}`)
+              .once('value');
+            if (user && user.photo) {
+              profileImagesData[post.userId] = user.photo;
+            }
+          }),
+        );
+
+        setProfileImages(profileImagesData);
         setPosts(updatedPostsArray);
       }
     } catch (error) {
       console.error('Error fetching posts: ', error);
     } finally {
-      setLoading(false); // Finish loading
+      setLoading(false); // Selesai loading
     }
   };
 
   useEffect(() => {
-    fetchPosts(); // Call fetchPosts when component mounts
+    fetchPosts(); // Panggil fetchPosts saat komponen dimount
   }, []);
 
   const handleUpvote = async (
@@ -188,16 +201,23 @@ const Card = ({onReportPress}) => {
               styles.cardContainer,
               post.type !== 'photo' && styles.cardContainerNonPhoto,
             ]}>
-            {/* kita ada ubah di sini di operator || dari && */}
             {post.type === 'photo' && post.image && (
               <View style={styles.cardImage}>
                 <Image source={{uri: post.image}} style={styles.postImage} />
               </View>
             )}
+
             <View style={styles.userInformationContainer}>
               <View style={styles.userInformation}>
                 <View style={styles.userProfile}>
-                  <Image style={styles.profileImage} source={IMGprofile} />
+                  {profileImages[post.userId] ? (
+                    <Image
+                      style={styles.profileImage}
+                      source={{uri: profileImages[post.userId]}} // Use the fetched profile image
+                    />
+                  ) : (
+                    <Image style={styles.profileImage} source={IMGprofile} /> // Default image
+                  )}
                 </View>
                 <Text style={styles.userName}>{post.owner}</Text>
                 <Text style={styles.dash}>-</Text>
@@ -299,9 +319,10 @@ const styles = StyleSheet.create({
     height: 240,
   },
   cardImage: {
-    width: 380,
+    width: 360,
     height: 180,
     marginTop: 10,
+    right: 10,
   },
   postImage: {
     width: '100%',
