@@ -307,16 +307,20 @@ export default Card;
 const styles = StyleSheet.create({
   cardContainer: {
     width: 392,
-    height: 433,
+    // height: 433,
+    minHeight: 350,
     backgroundColor: '#FFFFFF',
     marginTop: 10,
     borderRadius: 8,
     elevation: 3,
     paddingLeft: 27,
     paddingTop: 5,
+    paddingBottom: 15,
+    marginBottom: 5,
   },
   cardContainerNonPhoto: {
-    height: 240,
+    // height: 240,
+    minHeight: 160,
   },
   cardImage: {
     width: 360,
@@ -372,7 +376,7 @@ const styles = StyleSheet.create({
   },
   caption: {
     width: 343,
-    height: 100,
+    // height: 100,
     marginTop: 15,
   },
   captionStyle: {
