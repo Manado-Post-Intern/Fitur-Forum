@@ -89,6 +89,9 @@ const CreateStatus = () => {
       owner: fullName, // Set the owner's full name
       userId: userId, // Include the userId
       type: imageUri ? 'photo' : 'noPhoto',
+      userPhoto: profileImageUrl,
+      postDate: Date.now(),
+      totalComment: 0,
     };
 
     try {
@@ -98,6 +101,23 @@ const CreateStatus = () => {
     } catch (error) {
       Alert.alert('Error', 'There was an error posting your status.');
       console.error('Error posting status:', error);
+    }
+  };
+
+  const getTimeAgo = timestamp => {
+    const now = Date.now();
+    const timeDifference = now - timestamp;
+
+    const minutes = Math.floor(timeDifference / (1000 * 60));
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (minutes < 60) {
+      return `${minutes} menit yang lalu`;
+    } else if (hours < 24) {
+      return `${hours} jam yang lalu`;
+    } else {
+      return `${days} hari yang lalu`;
     }
   };
 
@@ -202,7 +222,7 @@ const CreateStatus = () => {
               </View>
               <Text style={styles.userName}>{fullName}</Text>
               <Text style={styles.dash}>-</Text>
-              <Text style={styles.userCreatedAt}>13 jam</Text>
+              <Text style={styles.userCreatedAt}>{getTimeAgo(Date.now())}</Text>
               <View style={styles.warningIcon}>
                 <TouchableOpacity>
                   <IcWarning />

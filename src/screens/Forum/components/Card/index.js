@@ -69,9 +69,14 @@ const Card = ({onReportPress}) => {
           }),
         );
 
+        // Mengurutkan posts berdasarkan postDate dari yang terbaru ke yang terlama
+        const sortedPostsArray = updatedPostsArray.sort(
+          (a, b) => b.postDate - a.postDate,
+        );
+
         const profileImagesData = {};
         await Promise.all(
-          updatedPostsArray.map(async post => {
+          sortedPostsArray.map(async post => {
             const user = await database()
               .ref(`users/${post.userId}`)
               .once('value');
@@ -82,7 +87,7 @@ const Card = ({onReportPress}) => {
         );
 
         setProfileImages(profileImagesData);
-        setPosts(updatedPostsArray);
+        setPosts(sortedPostsArray); // Set posts yang sudah diurutkan
       }
     } catch (error) {
       console.error('Error fetching posts: ', error);
@@ -188,6 +193,23 @@ const Card = ({onReportPress}) => {
     );
   };
 
+  const getTimeAgo = timestamp => {
+    const now = Date.now();
+    const timeDifference = now - timestamp;
+
+    const minutes = Math.floor(timeDifference / (1000 * 60));
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (minutes < 60) {
+      return `${minutes} menit yang lalu`;
+    } else if (hours < 24) {
+      return `${hours} jam yang lalu`;
+    } else {
+      return `${days} hari yang lalu`;
+    }
+  };
+
   return (
     <ScrollView
       refreshControl={
@@ -216,12 +238,17 @@ const Card = ({onReportPress}) => {
                       source={{uri: profileImages[post.userId]}} // Use the fetched profile image
                     />
                   ) : (
-                    <Image style={styles.profileImage} source={IMGprofile} /> // Default image
+                    <Image
+                      style={styles.profileImage}
+                      source={{uri: post.userPhoto}}
+                    /> // Default image
                   )}
                 </View>
                 <Text style={styles.userName}>{post.owner}</Text>
                 <Text style={styles.dash}>-</Text>
-                <Text style={styles.userCreatedAt}>13 jam</Text>
+                <Text style={styles.userCreatedAt}>
+                  {getTimeAgo(post.postDate)}
+                </Text>
               </View>
               <View style={styles.warningIcon}>
                 <TouchableOpacity onPress={onReportPress}>
@@ -280,7 +307,7 @@ const Card = ({onReportPress}) => {
                 <TouchableOpacity style={styles.commentStyle}>
                   <IcComments />
                   <Text style={styles.commentTextStyle}>Komentar</Text>
-                  <Text style={styles.totalComment}>(8)</Text>
+                  <Text style={styles.totalComment}>({post.totalComment})</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.shareButton}>
