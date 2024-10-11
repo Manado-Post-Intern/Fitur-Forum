@@ -21,17 +21,27 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {Gap} from '../../../components';
 import {launchImageLibrary} from 'react-native-image-picker';
+import database from '@react-native-firebase/database';
+import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 
 const CreateStatus = () => {
   const navigation = useNavigation();
   const [statusText, setStatusText] = useState('');
   const [imageUri, setImageUri] = useState(null);
 
+  // Get current user details from Firebase Auth
+  const currentUser = auth().currentUser;
+  const userId = currentUser ? currentUser.uid : null;
+  const fullName = currentUser ? currentUser.displayName : '';
+  const profileImageUrl = currentUser ? currentUser.photoURL : null; // Get the user's photoURL
+
   const handleTextChange = text => {
     if (text.length <= 280) {
       setStatusText(text);
     }
   };
+
   const handleImagePick = () => {
     const options = {
       mediaType: 'photo',
@@ -46,10 +56,69 @@ const CreateStatus = () => {
       } else if (response.errorCode) {
         Alert.alert('Image Picker Error', response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
-        console.log(response.assets); // Tambahkan log untuk melihat isi response
         setImageUri(response.assets[0].uri);
       }
     });
+  };
+
+  const handlePostStatus = async () => {
+    if (!userId) {
+      Alert.alert('Error', 'User is not authenticated');
+      return;
+    }
+
+    const postId = database().ref().child('forum/post').push().key;
+    let imageUrl = '';
+    if (imageUri) {
+      const imageRef = storage().ref(`images/posts/${postId}`);
+      try {
+        await imageRef.putFile(imageUri);
+        imageUrl = await imageRef.getDownloadURL();
+      } catch (error) {
+        Alert.alert('Error', 'Failed to upload image.');
+        console.error('Image upload error:', error);
+        return;
+      }
+    }
+
+    const postData = {
+      caption: statusText,
+      downVote: 0,
+      upVote: 0,
+      image: imageUrl,
+      owner: fullName, // Set the owner's full name
+      userId: userId, // Include the userId
+      type: imageUri ? 'photo' : 'noPhoto',
+      userPhoto: profileImageUrl,
+      postDate: Date.now(),
+      totalComment: 0,
+    };
+
+    try {
+      await database().ref(`forum/post/${postId}`).set(postData);
+      Alert.alert('Success', 'Your status has been posted!');
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert('Error', 'There was an error posting your status.');
+      console.error('Error posting status:', error);
+    }
+  };
+
+  const getTimeAgo = timestamp => {
+    const now = Date.now();
+    const timeDifference = now - timestamp;
+
+    const minutes = Math.floor(timeDifference / (1000 * 60));
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (minutes < 60) {
+      return `${minutes} menit yang lalu`;
+    } else if (hours < 24) {
+      return `${hours} jam yang lalu`;
+    } else {
+      return `${days} hari yang lalu`;
+    }
   };
 
   return (
@@ -63,7 +132,7 @@ const CreateStatus = () => {
         <View style={styles.textContainer}>
           <Text style={styles.headerText}>Buat Status</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handlePostStatus}>
           <View style={styles.postButton}>
             <Text style={styles.postTextStyle}>Post</Text>
           </View>
@@ -72,10 +141,18 @@ const CreateStatus = () => {
       <ScrollView style={styles.createSection}>
         <View style={styles.userInformation}>
           <View style={styles.userProfile}>
-            <Image style={styles.profileImage} source={IMGprofile} />
+            {/* Render profile picture from Firebase Authentication */}
+            {profileImageUrl ? (
+              <Image
+                style={styles.profileImage}
+                source={{uri: profileImageUrl}}
+              />
+            ) : (
+              <Image style={styles.profileImage} source={IMGprofile} /> // Default image
+            )}
           </View>
           <View style={styles.usernameCategoryStyle}>
-            <Text style={styles.usernameStyle}>Kalantow Jhellytha</Text>
+            <Text style={styles.usernameStyle}>{fullName}</Text>
             <View style={styles.categoryStyle}>
               <TouchableOpacity style={styles.categoryStyle}>
                 <Text style={styles.textCategoryStyle}>Kategori</Text>
@@ -89,8 +166,8 @@ const CreateStatus = () => {
           <TextInput
             placeholder="Apa yang terjadi?"
             style={styles.textInputStyle}
-            multiline={true} // Mengizinkan input teks untuk memiliki beberapa baris
-            textAlignVertical="top" // Mengatur teks agar dimulai dari atas
+            multiline={true}
+            textAlignVertical="top"
             value={statusText}
             onChangeText={handleTextChange}
           />
@@ -134,11 +211,18 @@ const CreateStatus = () => {
             )}
             <View style={styles.userInformationPreview}>
               <View style={styles.userProfilePreview}>
-                <Image style={styles.profileImagePreview} source={IMGprofile} />
+                {profileImageUrl ? (
+                  <Image
+                    style={styles.profileImage}
+                    source={{uri: profileImageUrl}}
+                  />
+                ) : (
+                  <Image style={styles.profileImage} source={IMGprofile} /> // Default image
+                )}
               </View>
-              <Text style={styles.userName}>Kalantow Jhellytha</Text>
+              <Text style={styles.userName}>{fullName}</Text>
               <Text style={styles.dash}>-</Text>
-              <Text style={styles.userCreatedAt}>13 jam</Text>
+              <Text style={styles.userCreatedAt}>{getTimeAgo(Date.now())}</Text>
               <View style={styles.warningIcon}>
                 <TouchableOpacity>
                   <IcWarning />
@@ -314,7 +398,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     paddingLeft: 27,
     minHeight: 200,
-    paddingBottom: 0, // Menambahkan padding bottom jika ada gambar/teks
+    paddingBottom: 0,
   },
   previewSection: {
     backgroundColor: '#E7F0F5',
@@ -351,7 +435,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   warningIcon: {
-    position: 'absolute', // Changed from 'relative' to 'absolute'
+    position: 'absolute',
     right: 20,
     width: 24,
     height: 24,
