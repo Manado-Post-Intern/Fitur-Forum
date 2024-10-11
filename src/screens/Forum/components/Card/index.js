@@ -23,7 +23,7 @@ import {useNavigation} from '@react-navigation/native';
 import ReportBottomSheet from '../ReportBottomSheet';
 import auth from '@react-native-firebase/auth';
 
-const Card = ({onReportPress}) => {
+const Card = ({post: selectedPost, onReportPress}) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -41,7 +41,7 @@ const Card = ({onReportPress}) => {
   };
 
   const fetchPosts = async () => {
-    setLoading(true); // Mulai loading
+    setLoading(true);
     try {
       const snapshot = await database().ref('forum/post').once('value');
       const data = snapshot.val();
@@ -92,13 +92,17 @@ const Card = ({onReportPress}) => {
     } catch (error) {
       console.error('Error fetching posts: ', error);
     } finally {
-      setLoading(false); // Selesai loading
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPosts(); // Panggil fetchPosts saat komponen dimount
-  }, []);
+    if (!selectedPost) {
+      fetchPosts();
+    } else {
+      setPosts([selectedPost]);
+    }
+  }, [selectedPost]);
 
   const handleUpvote = async (
     id,
@@ -213,7 +217,9 @@ const Card = ({onReportPress}) => {
   return (
     <ScrollView
       refreshControl={
-        <RefreshControl refreshing={loading} onRefresh={fetchPosts} />
+        !selectedPost && (
+          <RefreshControl refreshing={loading} onRefresh={fetchPosts} />
+        )
       }>
       <View style={{flex: 1}}>
         {posts.map(post => (
@@ -304,9 +310,14 @@ const Card = ({onReportPress}) => {
                 </TouchableOpacity>
               </View>
               <View style={styles.commentContainer}>
-                <TouchableOpacity style={styles.commentStyle}>
+                <TouchableOpacity
+                  style={styles.commentStyle}
+                  onPress={() =>
+                    navigation.navigate('DetailStatus', {post: post})
+                  }>
                   <IcComments />
                   <Text style={styles.commentTextStyle}>Komentar</Text>
+
                   <Text style={styles.totalComment}>({post.totalComment})</Text>
                 </TouchableOpacity>
               </View>
@@ -334,7 +345,6 @@ export default Card;
 const styles = StyleSheet.create({
   cardContainer: {
     width: 392,
-    // height: 433,
     minHeight: 350,
     backgroundColor: '#FFFFFF',
     marginTop: 10,

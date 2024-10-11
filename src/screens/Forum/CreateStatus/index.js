@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   previewSection: {
-    backgroundColor: '#B0DBF3',
+    backgroundColor: '#E7F0F5',
   },
   userInformationPreview: {
     flexDirection: 'row',
