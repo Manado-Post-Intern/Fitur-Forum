@@ -16,12 +16,11 @@ import {
   IcShare,
   IcUpvote,
   IcWarning,
-  IMGprofile,
 } from '../../assets';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import ReportBottomSheet from '../ReportBottomSheet';
 import auth from '@react-native-firebase/auth';
+import ReportBottomSheet from '../ReportBottomSheet';
 
 const Card = ({onReportPress}) => {
   const [posts, setPosts] = useState([]);
@@ -32,12 +31,26 @@ const Card = ({onReportPress}) => {
   const [profileImages, setProfileImages] = useState({});
 
   const handleShowReportSheet = postId => {
-    setSelectedPostId(postId);
-    setBottomSheetVisible(true);
+    // Panggil onReportPress di sini
+    if (onReportPress) {
+      onReportPress(postId);
+      setBottomSheetVisible(true); // Tampilkan bottom sheet
+      console.log('Post ID untuk laporan:', postId); // Log postId yang diterima
+    }
   };
 
   const handleCloseReportSheet = () => {
     setBottomSheetVisible(false);
+  };
+
+  const [lastVoteTime, setLastVoteTime] = useState({});
+
+  const canVote = postId => {
+    const currentTime = Date.now();
+    const lastTime = lastVoteTime[postId] || 0;
+    const delay = 2000; // Jeda 2 detik
+
+    return currentTime - lastTime > delay;
   };
 
   const fetchPosts = async () => {
@@ -107,6 +120,12 @@ const Card = ({onReportPress}) => {
     isUpvoted,
     isDownvoted,
   ) => {
+    if (!canVote(id)) {
+      return; // Jika belum lewat 2 detik, tidak bisa vote
+    }
+
+    setLastVoteTime(prev => ({...prev, [id]: Date.now()}));
+
     const newUpvoteStatus = !isUpvoted;
 
     if (newUpvoteStatus) {
@@ -152,6 +171,12 @@ const Card = ({onReportPress}) => {
     isDownvoted,
     isUpvoted,
   ) => {
+    if (!canVote(id)) {
+      return; // Jika belum lewat 2 detik, tidak bisa vote
+    }
+
+    setLastVoteTime(prev => ({...prev, [id]: Date.now()}));
+
     const newDownvoteStatus = !isDownvoted;
 
     if (newDownvoteStatus) {
@@ -197,11 +222,16 @@ const Card = ({onReportPress}) => {
     const now = Date.now();
     const timeDifference = now - timestamp;
 
+    const seconds = Math.floor(timeDifference / 1000);
     const minutes = Math.floor(timeDifference / (1000 * 60));
     const hours = Math.floor(timeDifference / (1000 * 60 * 60));
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-    if (minutes < 60) {
+    if (seconds < 10) {
+      return 'Baru saja';
+    } else if (seconds < 60) {
+      return `${seconds} detik yang lalu`;
+    } else if (minutes < 60) {
       return `${minutes} menit yang lalu`;
     } else if (hours < 24) {
       return `${hours} jam yang lalu`;
@@ -251,7 +281,8 @@ const Card = ({onReportPress}) => {
                 </Text>
               </View>
               <View style={styles.warningIcon}>
-                <TouchableOpacity onPress={onReportPress}>
+                <TouchableOpacity
+                  onPress={() => handleShowReportSheet(post.id)}>
                   <IcWarning />
                 </TouchableOpacity>
               </View>

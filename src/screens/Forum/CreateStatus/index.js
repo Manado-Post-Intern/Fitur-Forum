@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image, Alert} from 'react-native';
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
+import NetInfo from '@react-native-community/netinfo'; // Import NetInfo
 import {
   IcBackBlue,
   IcClose,
@@ -29,12 +30,25 @@ const CreateStatus = () => {
   const navigation = useNavigation();
   const [statusText, setStatusText] = useState('');
   const [imageUri, setImageUri] = useState(null);
+  const [isPosting, setIsPosting] = useState(false); // State to prevent spamming
+  const [isConnected, setIsConnected] = useState(true);
 
   // Get current user details from Firebase Auth
   const currentUser = auth().currentUser;
   const userId = currentUser ? currentUser.uid : null;
   const fullName = currentUser ? currentUser.displayName : '';
-  const profileImageUrl = currentUser ? currentUser.photoURL : null; // Get the user's photoURL
+  const profileImageUrl = currentUser ? currentUser.photoURL : null;
+
+  useEffect(() => {
+    // Subscribe to network status updates
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const handleTextChange = text => {
     if (text.length <= 280) {
@@ -62,8 +76,13 @@ const CreateStatus = () => {
   };
 
   const handlePostStatus = async () => {
+    if (isPosting) return; // Prevent multiple clicks
+
+    setIsPosting(true); // Disable the button
+
     if (!userId) {
       Alert.alert('Error', 'User is not authenticated');
+      setIsPosting(false); // Re-enable the button
       return;
     }
 
@@ -77,6 +96,7 @@ const CreateStatus = () => {
       } catch (error) {
         Alert.alert('Error', 'Failed to upload image.');
         console.error('Image upload error:', error);
+        setIsPosting(false); // Re-enable the button
         return;
       }
     }
@@ -86,8 +106,8 @@ const CreateStatus = () => {
       downVote: 0,
       upVote: 0,
       image: imageUrl,
-      owner: fullName, // Set the owner's full name
-      userId: userId, // Include the userId
+      owner: fullName,
+      userId: userId,
       type: imageUri ? 'photo' : 'noPhoto',
       userPhoto: profileImageUrl,
       postDate: Date.now(),
@@ -97,10 +117,14 @@ const CreateStatus = () => {
     try {
       await database().ref(`forum/post/${postId}`).set(postData);
       Alert.alert('Success', 'Your status has been posted!');
-      navigation.goBack();
+      setTimeout(() => {
+        setIsPosting(false); // Re-enable the button after 2 seconds
+        navigation.goBack();
+      }, 2000); // 2 seconds delay
     } catch (error) {
       Alert.alert('Error', 'There was an error posting your status.');
       console.error('Error posting status:', error);
+      setIsPosting(false); // Re-enable the button
     }
   };
 
@@ -132,8 +156,14 @@ const CreateStatus = () => {
         <View style={styles.textContainer}>
           <Text style={styles.headerText}>Buat Status</Text>
         </View>
-        <TouchableOpacity onPress={handlePostStatus}>
-          <View style={styles.postButton}>
+        <TouchableOpacity
+          onPress={handlePostStatus}
+          disabled={isPosting || !isConnected}>
+          <View
+            style={[
+              styles.postButton,
+              {backgroundColor: isConnected ? '#00599B' : '#A9A9A9'},
+            ]}>
             <Text style={styles.postTextStyle}>Post</Text>
           </View>
         </TouchableOpacity>
@@ -401,7 +431,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   previewSection: {
-    backgroundColor: '#B0DBF3',
+    backgroundColor: '#E7F0F5',
   },
   userInformationPreview: {
     flexDirection: 'row',

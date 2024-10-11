@@ -1,12 +1,10 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View} from 'react-native';
 import {React, useState, useEffect, useRef, useMemo} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../components/Header';
 import {ScrollView} from 'react-native-gesture-handler';
 import Card from '../components/Card';
 import {Gap} from '../../../components';
-import Footer from '../components/Footer';
 import {
   TouchableOpacity,
   GestureHandlerRootView,
@@ -14,15 +12,17 @@ import {
 import {IcPencil} from '../assets';
 import ReportBottomSheet from '../components/ReportBottomSheet'; // Import ReportBottomSheet
 import BottomSheet from '@gorhom/bottom-sheet';
-import {useNavigation} from '@react-navigation/native';
 
 const StatusTimeline = ({navigation}) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [postedId, setPostedId] = useState(null);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['100%'], []);
 
-  const openBottomSheet = () => {
+  const openBottomSheet = id => {
+    // Step 2: Modify the function to accept an id
+    setPostedId(id); // Store the id
     setBottomSheetVisible(true);
     bottomSheetRef.current?.expand();
   };
@@ -65,7 +65,7 @@ const StatusTimeline = ({navigation}) => {
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             onClose={() => setBottomSheetVisible(false)}>
-            <ReportBottomSheet onClose={closeBottomSheet} />
+            <ReportBottomSheet onClose={closeBottomSheet} postedId={postedId} />
           </BottomSheet>
         )}
       </View>

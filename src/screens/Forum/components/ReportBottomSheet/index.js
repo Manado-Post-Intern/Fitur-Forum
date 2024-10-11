@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,15 +16,21 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import {Gap} from '../../../../components';
+import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 
-const ReportBottomSheet = ({onClose}) => {
+const ReportBottomSheet = ({onClose, postedId}) => {
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [currentContent, setCurrentContent] = useState('main');
   const [selectedOption, setSelectedOption] = useState('');
+  const [selectedPostId, setSelectedPostId] = useState(null);
   const [reasonText, setReasonText] = useState('');
   const [statusText, setStatusText] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const translateX = useSharedValue(300);
+  const currentUser = auth().currentUser;
+  const userId = currentUser ? currentUser.uid : null;
+  const fullName = currentUser ? currentUser.displayName : '';
 
   const handleTextChange = text => {
     if (text.length <= 280) {
@@ -33,10 +39,16 @@ const ReportBottomSheet = ({onClose}) => {
     }
   };
 
+  useEffect(() => {
+    console.log(postedId);
+    setSelectedPostId(postedId);
+  }, [postedId]); // Memantau perubahan postedId
+
   const handleOptionPress = option => {
     setSelectedOption(option);
     setCurrentContent('detail');
     setIsDetailVisible(true);
+    console.log('ready post id:', selectedPostId);
     translateX.value = withTiming(0, {duration: 500});
   };
 
@@ -50,9 +62,42 @@ const ReportBottomSheet = ({onClose}) => {
     });
   };
 
+  const handleReportSubmission = async () => {
+    console.log('Mulai mengirim laporan...');
+    console.log('Selected Post ID:', postedId);
+    if (!selectedOption || !userId || !postedId) {
+      console.log('Data tidak lengkap:', {
+        selectedOption,
+        userId,
+        postedId,
+      });
+      return;
+    }
+
+    const reportId = database().ref().child('forum/reported').push().key;
+
+    const reportData = {
+      postId: postedId, // ID postingan yang di-report
+      userId: userId, // ID user yang melaporkan
+      reason: selectedOption, // Alasan dari pilihan yang dipilih user
+      detail: reasonText, // Detail tambahan yang diisi user
+      reportDate: database.ServerValue.TIMESTAMP, // Waktu laporan
+    };
+
+    try {
+      await database().ref(`forum/reported/${reportId}`).set(reportData);
+      console.log('Laporan berhasil dikirim!');
+      setIsModalVisible(true); // Menampilkan modal konfirmasi sukses
+    } catch (error) {
+      console.error('Error submitting report:', error);
+    }
+  };
+
   const handleSendPress = () => {
+    console.log('Tombol Kirim diklik');
+    console.log('Selected Post ID:', postedId); // Debugging
     if (!isSendButtonDisabled()) {
-      setIsModalVisible(true);
+      handleReportSubmission(); // Hanya memanggil handleReportSubmission
     }
   };
 
