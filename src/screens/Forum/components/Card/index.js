@@ -39,6 +39,52 @@ const Card = ({post: selectedPost, onReportPress}) => {
     }
   };
 
+  useEffect(() => {
+    if (!selectedPost) {
+      fetchPosts();
+    } else {
+      setPosts([selectedPost]);
+    }
+
+    // Listener for changes in posts (to handle updates)
+    const postListener = database()
+      .ref('forum/post')
+      .on('child_changed', snapshot => {
+        const updatedPost = snapshot.val();
+        setPosts(prevPosts =>
+          prevPosts.map(post =>
+            post.id === updatedPost.id
+              ? {...post, comments: updatedPost.comments}
+              : post,
+          ),
+        );
+      });
+
+    // Listener for changes in comments for the specific post
+    if (selectedPost) {
+      const commentsListener = database()
+        .ref(`forum/post/${selectedPost.id}/comments`)
+        .on('value', snapshot => {
+          const comments = snapshot.val() || {};
+          setPosts(prevPosts =>
+            prevPosts.map(post =>
+              post.id === selectedPost.id ? {...post, comments} : post,
+            ),
+          );
+        });
+
+      // Cleanup comments listener
+      return () =>
+        database()
+          .ref(`forum/post/${selectedPost.id}/comments`)
+          .off('value', commentsListener);
+    }
+
+    // Cleanup post listener
+    return () =>
+      database().ref('forum/post').off('child_changed', postListener);
+  }, [selectedPost]);
+
   const handleCloseReportSheet = () => {
     setBottomSheetVisible(false);
   };
@@ -166,6 +212,18 @@ const Card = ({post: selectedPost, onReportPress}) => {
           : post,
       ),
     );
+  };
+
+  const countTotalComments = comments => {
+    let totalCount = Object.keys(comments).length; // Hitung jumlah komentar utama
+
+    Object.values(comments).forEach(comment => {
+      if (comment.replies) {
+        totalCount += Object.keys(comment.replies).length; // Tambahkan jumlah balasan
+      }
+    });
+
+    return totalCount;
   };
 
   const handleDownvote = async (
@@ -349,7 +407,9 @@ const Card = ({post: selectedPost, onReportPress}) => {
                   <IcComments />
                   <Text style={styles.commentTextStyle}>Komentar</Text>
 
-                  <Text style={styles.totalComment}>({post.totalComment})</Text>
+                  <Text style={styles.totalComment}>
+                    ({post.comments ? countTotalComments(post.comments) : 0})
+                  </Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.shareButton}>

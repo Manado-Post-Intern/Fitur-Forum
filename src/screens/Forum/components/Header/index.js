@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {React, useState} from 'react';
-import {IcBack, IMGLogoManado, IMGMPTextPrimary} from '../../../../assets';
+import {IMGMPTextPrimary} from '../../../../assets';
 import {IcSearchBlue} from '../../assets';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';

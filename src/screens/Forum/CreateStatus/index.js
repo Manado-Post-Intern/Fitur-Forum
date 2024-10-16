@@ -112,6 +112,7 @@ const CreateStatus = () => {
       userPhoto: profileImageUrl,
       postDate: Date.now(),
       totalComment: 0,
+      comments: '',
     };
 
     try {
