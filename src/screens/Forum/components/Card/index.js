@@ -85,9 +85,9 @@ const Card = ({post: selectedPost, onReportPress}) => {
       database().ref('forum/post').off('child_changed', postListener);
   }, [selectedPost]);
 
-  const handleCloseReportSheet = () => {
-    setBottomSheetVisible(false);
-  };
+  // const handleCloseReportSheet = () => {
+  //   setBottomSheetVisible(false);
+  // };
 
   const [lastVoteTime, setLastVoteTime] = useState({});
 
@@ -421,12 +421,12 @@ const Card = ({post: selectedPost, onReportPress}) => {
           </View>
         ))}
       </View>
-      {isBottomSheetVisible && (
+      {/* {isBottomSheetVisible && (
         <ReportBottomSheet
           isVisible={isBottomSheetVisible}
           onClose={handleCloseReportSheet}
         />
-      )}
+      )} */}
     </ScrollView>
   );
 };

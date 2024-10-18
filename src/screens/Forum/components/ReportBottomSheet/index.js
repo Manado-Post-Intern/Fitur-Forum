@@ -30,7 +30,9 @@ const ReportBottomSheet = ({onClose, postedId}) => {
   const translateX = useSharedValue(300);
   const currentUser = auth().currentUser;
   const userId = currentUser ? currentUser.uid : null;
+  const [postOwnerId, setPostOwnerId] = useState(null);
   const fullName = currentUser ? currentUser.displayName : '';
+  const [ownerName, setOwnerName] = useState('');
 
   const handleTextChange = text => {
     if (text.length <= 280) {
@@ -52,6 +54,33 @@ const ReportBottomSheet = ({onClose, postedId}) => {
     translateX.value = withTiming(0, {duration: 500});
   };
 
+  useEffect(() => {
+    console.log(postedId);
+    setSelectedPostId(postedId);
+
+    // Query ke Firebase untuk mendapatkan userId dari postId yang diberikan
+    const fetchPostOwner = async () => {
+      try {
+        const snapshot = await database()
+          .ref(`forum/post/${postedId}`)
+          .once('value');
+        const postData = snapshot.val();
+        if (postData && postData.userId) {
+          setPostOwnerId(postData.userId); // Set userId dari pemilik post
+          setOwnerName(postData.owner);
+        } else {
+          console.log('Post tidak ditemukan atau tidak memiliki userId.');
+        }
+      } catch (error) {
+        console.error('Error fetching post owner:', error);
+      }
+    };
+
+    if (postedId) {
+      fetchPostOwner(); // Ambil userId pemilik postingan
+    }
+  }, [postedId]);
+
   const handleBackPress = () => {
     translateX.value = withTiming(300, {duration: 500}, () => {
       runOnJS(setIsDetailVisible)(false); // Menjalankan fungsi di luar UI thread
@@ -65,10 +94,10 @@ const ReportBottomSheet = ({onClose, postedId}) => {
   const handleReportSubmission = async () => {
     console.log('Mulai mengirim laporan...');
     console.log('Selected Post ID:', postedId);
-    if (!selectedOption || !userId || !postedId) {
+    if (!selectedOption || !postOwnerId || !postedId) {
       console.log('Data tidak lengkap:', {
         selectedOption,
-        userId,
+        postOwnerId,
         postedId,
       });
       return;
@@ -78,7 +107,9 @@ const ReportBottomSheet = ({onClose, postedId}) => {
 
     const reportData = {
       postId: postedId, // ID postingan yang di-report
-      userId: userId, // ID user yang melaporkan
+      ownerId: postOwnerId, // ID user pemilik postingan
+      ownerName: ownerName,
+      reportBy: fullName, // ID user yang melaporkan
       reason: selectedOption, // Alasan dari pilihan yang dipilih user
       detail: reasonText, // Detail tambahan yang diisi user
       reportDate: database.ServerValue.TIMESTAMP, // Waktu laporan

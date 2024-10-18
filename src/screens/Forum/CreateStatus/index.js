@@ -159,11 +159,15 @@ const CreateStatus = () => {
         </View>
         <TouchableOpacity
           onPress={handlePostStatus}
-          disabled={isPosting || !isConnected}>
+          disabled={isPosting || !isConnected || !statusText.trim()} // Disable jika isPosting, tidak terhubung, atau statusText kosong
+        >
           <View
             style={[
               styles.postButton,
-              {backgroundColor: isConnected ? '#00599B' : '#A9A9A9'},
+              {
+                backgroundColor:
+                  isConnected && statusText.trim() ? '#00599B' : '#A9A9A9', // Ubah warna tombol berdasarkan status koneksi dan teks
+              },
             ]}>
             <Text style={styles.postTextStyle}>Post</Text>
           </View>
@@ -302,6 +306,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#39A5E1',
+    justifyContent: 'space-between',
   },
   backButton: {
     width: 50,
@@ -311,6 +316,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   headerText: {
+    right: 65,
     fontSize: 24,
     color: '#00599B',
     fontFamily: 'Inter-SemiBold',
@@ -322,7 +328,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#00599B',
     borderRadius: 4,
-    left: 120,
+    right: 10,
   },
   postTextStyle: {
     fontSize: 16,
@@ -379,14 +385,14 @@ const styles = StyleSheet.create({
   textInputStyle: {
     width: 380,
     marginTop: 20,
-    fontSize: 29,
-    marginLeft: 18,
+    fontSize: 24,
+    marginLeft: 14,
     fontFamily: 'Inter-Medium',
     textAlignVertical: 'top',
   },
   characterCount: {
-    marginLeft: 18,
-    fontSize: 16,
+    marginLeft: 20,
+    fontSize: 12,
     fontFamily: 'Inter-Regular',
     color: 'black',
   },
