@@ -100,4 +100,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
     fontWeight: 'semibold',
   },
+  bottomSheetWide: {
+    width: 400,
+  },
 });

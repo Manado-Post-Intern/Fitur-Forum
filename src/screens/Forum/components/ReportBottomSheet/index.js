@@ -18,6 +18,9 @@ import Animated, {
 import {Gap} from '../../../../components';
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
+import NetInfo from '@react-native-community/netinfo';
+import {Dimensions} from 'react-native';
+import {Alert} from 'react-native';
 
 const ReportBottomSheet = ({onClose, postedId}) => {
   const [isDetailVisible, setIsDetailVisible] = useState(false);
@@ -33,6 +36,9 @@ const ReportBottomSheet = ({onClose, postedId}) => {
   const [postOwnerId, setPostOwnerId] = useState(null);
   const fullName = currentUser ? currentUser.displayName : '';
   const [ownerName, setOwnerName] = useState('');
+  const [isConnected, setIsConnected] = useState(true);
+  const screenWidth = Dimensions.get('window').width;
+  const [isSendButtonDisabled, setIsSendButtonDisabled] = useState(false); // State untuk tombol kirim
 
   const handleTextChange = text => {
     if (text.length <= 280) {
@@ -40,6 +46,15 @@ const ReportBottomSheet = ({onClose, postedId}) => {
       setStatusText(text);
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected);
+    });
+
+    // Bersihkan listener saat komponen unmount
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     console.log(postedId);
@@ -50,8 +65,7 @@ const ReportBottomSheet = ({onClose, postedId}) => {
     setSelectedOption(option);
     setCurrentContent('detail');
     setIsDetailVisible(true);
-    console.log('ready post id:', selectedPostId);
-    translateX.value = withTiming(0, {duration: 500});
+    translateX.value = withTiming(0, {duration: 300}); // Animasi masuk
   };
 
   useEffect(() => {
@@ -82,7 +96,7 @@ const ReportBottomSheet = ({onClose, postedId}) => {
   }, [postedId]);
 
   const handleBackPress = () => {
-    translateX.value = withTiming(300, {duration: 500}, () => {
+    translateX.value = withTiming(500, {duration: 300}, () => {
       runOnJS(setIsDetailVisible)(false); // Menjalankan fungsi di luar UI thread
       runOnJS(setCurrentContent)('main'); // Menjalankan fungsi di luar UI thread
       runOnJS(setSelectedOption)('');
@@ -127,8 +141,20 @@ const ReportBottomSheet = ({onClose, postedId}) => {
   const handleSendPress = () => {
     console.log('Tombol Kirim diklik');
     console.log('Selected Post ID:', postedId); // Debugging
-    if (!isSendButtonDisabled()) {
-      handleReportSubmission(); // Hanya memanggil handleReportSubmission
+
+    if (!isConnected) {
+      // Tampilkan alert tanpa langsung men-disable tombol
+      Alert.alert(
+        'Network Error',
+        'Tidak dapat mengirim, network error. Silakan cek koneksi Anda dan coba lagi.',
+      );
+      return;
+    }
+
+    // Jika terhubung ke jaringan, baru kirim laporan
+    if (!isSendButtonDisabled) {
+      handleReportSubmission();
+      setIsSendButtonDisabled(true); // Disable tombol setelah kirim laporan
     }
   };
 
@@ -142,10 +168,6 @@ const ReportBottomSheet = ({onClose, postedId}) => {
       transform: [{translateX: translateX.value}],
     };
   });
-
-  const isSendButtonDisabled = () => {
-    return selectedOption === 'Lainnya' && reasonText.trim() === '';
-  };
 
   return (
     <View style={styles.container}>
@@ -253,9 +275,10 @@ const ReportBottomSheet = ({onClose, postedId}) => {
           <TouchableOpacity
             style={[
               styles.sendButton,
-              isSendButtonDisabled() && styles.sendButtonDisabled,
+              (isSendButtonDisabled || !isConnected) &&
+                styles.sendButtonDisabled,
             ]}
-            disabled={isSendButtonDisabled()}
+            disabled={isSendButtonDisabled} // Disable hanya setelah kirim laporan
             onPress={handleSendPress}>
             <Text style={styles.sendButtonText}>Kirim</Text>
           </TouchableOpacity>
