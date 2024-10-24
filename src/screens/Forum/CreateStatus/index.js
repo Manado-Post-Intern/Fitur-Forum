@@ -59,9 +59,7 @@ const CreateStatus = () => {
   const handleImagePick = () => {
     const options = {
       mediaType: 'photo',
-      maxWidth: 300,
-      maxHeight: 300,
-      quality: 1,
+      quality: 1, // Menjaga kualitas gambar setinggi mungkin
     };
 
     launchImageLibrary(options, response => {

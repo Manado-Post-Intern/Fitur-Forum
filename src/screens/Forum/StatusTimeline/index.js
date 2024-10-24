@@ -12,13 +12,23 @@ import {
 import {IcPencil} from '../assets';
 import ReportBottomSheet from '../components/ReportBottomSheet'; // Import ReportBottomSheet
 import BottomSheet from '@gorhom/bottom-sheet';
+import NetInfo from '@react-native-community/netinfo';
 
-const StatusTimeline = ({navigation}) => {
+const StatusTimeline = ({navigation, route}) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [postedId, setPostedId] = useState(null);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['100%'], []);
+  const [isConnected, setIsConnected] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const openBottomSheet = id => {
     // Step 2: Modify the function to accept an id
@@ -35,6 +45,18 @@ const StatusTimeline = ({navigation}) => {
   const handleRefresh = () => {
     setRefreshKey(prevKey => prevKey + 1);
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // Periksa apakah navigasi membawa parameter refresh
+      const shouldRefresh = route.params?.refresh || false;
+      if (shouldRefresh) {
+        handleRefresh(); // Panggil fungsi refresh
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation, route.params?.refresh]);
 
   useEffect(() => {
     // Tidak perlu reset AsyncStorage di sini
@@ -55,7 +77,7 @@ const StatusTimeline = ({navigation}) => {
         </TouchableOpacity>
         <Gap height={5} />
         <ScrollView style={styles.content}>
-          <Card onReportPress={openBottomSheet} />
+          <Card onReportPress={openBottomSheet} connection={isConnected} />
           <Gap height={120} />
         </ScrollView>
         {isBottomSheetVisible && (

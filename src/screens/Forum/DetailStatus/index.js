@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, RefreshControl} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import {IcBackBlue, IcSend} from '../assets';
 import IcSendFix from '../assets/icons/Icon-Send-Fix.svg';
 import {
@@ -14,6 +14,10 @@ import Card from '../components/Card';
 import Comment from '../components/Comment';
 import database from '@react-native-firebase/database'; // Import Firebase Realtime Database
 import auth from '@react-native-firebase/auth'; // Import Firebase Auth untuk mendapatkan user
+import NetInfo from '@react-native-community/netinfo';
+import {Alert} from 'react-native';
+import ReportBottomSheet from '../components/ReportBottomSheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 const DetailStatus = () => {
   const navigation = useNavigation();
@@ -33,6 +37,31 @@ const DetailStatus = () => {
 
   // State untuk melacak username yang sedang dibalas
   const [replyingTo, setReplyingTo] = useState(null);
+  const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [postedId, setPostedId] = useState(null);
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ['100%'], []);
+  const [isConnected, setIsConnected] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const openBottomSheet = id => {
+    // Step 2: Modify the function to accept an id
+    setPostedId(id); // Store the id
+    setBottomSheetVisible(true);
+    bottomSheetRef.current?.expand();
+  };
+
+  const closeBottomSheet = () => {
+    setBottomSheetVisible(false);
+    bottomSheetRef.current?.close();
+  };
 
   // Dapatkan user dari Firebase Auth
   useEffect(() => {
@@ -63,14 +92,25 @@ const DetailStatus = () => {
     return () => commentsRef.off('value', onValueChange);
   }, [post.id]);
 
+  const sortedComments = Object.keys(comments)
+    .map(commentId => ({
+      id: commentId,
+      ...comments[commentId],
+    }))
+    .sort((a, b) => b.commentDate - a.commentDate);
+
   // Fungsi untuk mengirim komentar ke Firebase
   const handleSendComment = async () => {
+    if (!isConnected) {
+      Alert.alert('Tidak ada koneksi internet', 'Coba lagi nanti.');
+      return; // Tidak melanjutkan pengiriman komentar
+    }
+
     if (commentText.length > 0 && user) {
-      // Jika sedang membalas komentar
       if (replyingTo) {
         const replyRef = database()
           .ref(`forum/post/${post.id}/comments/${replyingTo.commentId}/replies`)
-          .push(); // Membuat replyId unik
+          .push();
 
         const newReply = {
           userId: user.userId,
@@ -88,13 +128,11 @@ const DetailStatus = () => {
           console.error('Error saat mengirim balasan:', error);
         }
 
-        // Reset setelah mengirim balasan
         setReplyingTo(null);
       } else {
-        // Jika bukan balasan, kirim sebagai komentar
         const commentRef = database()
           .ref(`forum/post/${post.id}/comments`)
-          .push(); // Membuat commentId unik
+          .push();
 
         const newComment = {
           userId: user.userId,
@@ -113,7 +151,7 @@ const DetailStatus = () => {
         }
       }
 
-      setCommentText(''); // Mengosongkan kolom komentar setelah mengirim
+      setCommentText('');
     } else if (!user) {
       console.log('User belum login');
     }
@@ -131,37 +169,57 @@ const DetailStatus = () => {
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <View style={styles.backButtonStyle}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Forum', {refresh: true})}>
               <IcBackBlue />
             </TouchableOpacity>
           </View>
           <Text style={styles.textPostingan}>Postingan</Text>
         </View>
         <ScrollView>
-          <View style={styles.cardStyle}>{post && <Card post={post} />}</View>
+          <View style={styles.cardStyle}>
+            {post && (
+              <Card
+                post={post}
+                onReportPress={openBottomSheet}
+                connection={isConnected}
+              />
+            )}
+          </View>
           <Text style={styles.komentarTitle}>Komentar</Text>
 
           {/* Tampilkan komentar menggunakan map */}
-          {Object.keys(comments).length > 0 ? (
-            Object.keys(comments).map(commentId => (
+          {sortedComments.length > 0 ? (
+            sortedComments.map(comment => (
               <Comment
                 postId={post.id}
-                key={commentId}
-                commentId={commentId}
-                username={comments[commentId].fullName}
-                value={comments[commentId].value}
-                commentDate={comments[commentId].commentDate}
-                userProfile={comments[commentId].userProfile}
-                replies={comments[commentId].replies} // Tambahkan balasan
+                key={comment.id}
+                commentId={comment.id}
+                username={comment.fullName}
+                value={comment.value}
+                commentDate={comment.commentDate}
+                userProfile={comment.userProfile}
+                replies={comment.replies} // Tambahkan balasan
                 onReplyPress={() =>
-                  handleReplyPress(commentId, comments[commentId].fullName)
+                  handleReplyPress(comment.id, comment.fullName)
                 }
+                connection={isConnected}
               />
             ))
           ) : (
             <Text style={styles.noCommentText}>Belum ada komentar.</Text>
           )}
         </ScrollView>
+        {isBottomSheetVisible && (
+          <BottomSheet
+            ref={bottomSheetRef}
+            index={0}
+            snapPoints={snapPoints}
+            enablePanDownToClose={true}
+            onClose={() => setBottomSheetVisible(false)}>
+            <ReportBottomSheet onClose={closeBottomSheet} postedId={postedId} />
+          </BottomSheet>
+        )}
         <View style={styles.inputContainer}>
           <TextInput
             placeholder={

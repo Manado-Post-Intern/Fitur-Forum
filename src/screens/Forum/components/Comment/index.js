@@ -17,6 +17,7 @@ const Comment = ({
   onReplyPress,
   commentDate,
   replies, // Properti balasan
+  connection,
 }) => {
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
@@ -124,7 +125,7 @@ const Comment = ({
       </View>
       <View style={styles.userResponse}>
         <Text style={styles.commentHours}>{getTimeAgo(commentDate)}</Text>
-        <TouchableOpacity onPress={handleLikePress}>
+        <TouchableOpacity onPress={handleLikePress} disabled={!connection}>
           <Text style={[styles.likeButton, liked && styles.liked]}>
             {liked ? `Suka(${likesCount})` : 'Suka'}
           </Text>

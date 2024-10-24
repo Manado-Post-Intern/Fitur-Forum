@@ -21,8 +21,9 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import ReportBottomSheet from '../ReportBottomSheet';
+// import NetInfo from '@react-native-community/netinfo';
 
-const Card = ({post: selectedPost, onReportPress}) => {
+const Card = ({post: selectedPost, onReportPress, connection}) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -361,7 +362,9 @@ const Card = ({post: selectedPost, onReportPress}) => {
                   style={[
                     styles.voteStyle,
                     post.isUpvoted && styles.voteStyleUpvoted,
+                    !connection && styles.disabledVoteStyle,
                   ]}
+                  disabled={!connection} // Use the connection prop here
                   onPress={() =>
                     handleUpvote(
                       post.id,
@@ -382,7 +385,9 @@ const Card = ({post: selectedPost, onReportPress}) => {
                   style={[
                     styles.voteStyle,
                     post.isDownvoted && styles.voteStyleDownvoted,
+                    !connection && styles.disabledVoteStyle,
                   ]}
+                  disabled={!connection} // Use the connection prop here
                   onPress={() =>
                     handleDownvote(
                       post.id,
@@ -490,9 +495,10 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   dash: {
-    marginLeft: 10,
+    marginLeft: 5,
   },
   userCreatedAt: {
+    fontSize: 12,
     marginLeft: 5,
   },
   warningIcon: {
@@ -526,6 +532,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#39A5E1',
     marginLeft: 15,
+  },
+  disabledVoteStyle: {
+    borderColor: '#D3D3D3',
   },
   voteStyleUpvoted: {
     marginRight: -10,
