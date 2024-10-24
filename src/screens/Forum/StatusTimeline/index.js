@@ -1,20 +1,22 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View} from 'react-native';
-import {React, useState, useEffect, useRef, useMemo} from 'react';
+import {React, useState, useEffect, useRef, useMemo, useCallback} from 'react';
 import Header from '../components/Header';
-import {ScrollView} from 'react-native-gesture-handler';
 import Card from '../components/Card';
 import {Gap} from '../../../components';
 import {
   TouchableOpacity,
   GestureHandlerRootView,
+  ScrollView,
 } from 'react-native-gesture-handler';
 import {IcPencil} from '../assets';
-import ReportBottomSheet from '../components/ReportBottomSheet'; // Import ReportBottomSheet
+import ReportBottomSheet from '../components/ReportBottomSheet';
 import BottomSheet from '@gorhom/bottom-sheet';
 import NetInfo from '@react-native-community/netinfo';
 
 const StatusTimeline = ({navigation, route}) => {
+  const scrollViewRef = useRef(null);
+  const [scrollY, setScrollY] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [postedId, setPostedId] = useState(null);
@@ -30,9 +32,32 @@ const StatusTimeline = ({navigation, route}) => {
     return () => unsubscribe();
   }, []);
 
+  const handleRefresh = useCallback(() => {
+    const currentScrollY = scrollY;
+    setRefreshKey(prevKey => prevKey + 1);
+
+    setTimeout(() => {
+      // Use scrollTo instead of scrollToOffset for ScrollView
+      scrollViewRef.current?.scrollTo({
+        y: currentScrollY,
+        animated: false,
+      });
+    }, 100);
+  }, [scrollY]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      const shouldRefresh = route.params?.refresh || false;
+      if (shouldRefresh) {
+        handleRefresh();
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation, route.params?.refresh, handleRefresh]);
+
   const openBottomSheet = id => {
-    // Step 2: Modify the function to accept an id
-    setPostedId(id); // Store the id
+    setPostedId(id);
     setBottomSheetVisible(true);
     bottomSheetRef.current?.expand();
   };
@@ -42,25 +67,9 @@ const StatusTimeline = ({navigation, route}) => {
     bottomSheetRef.current?.close();
   };
 
-  const handleRefresh = () => {
-    setRefreshKey(prevKey => prevKey + 1);
+  const handleScroll = event => {
+    setScrollY(event.nativeEvent.contentOffset.y);
   };
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      // Periksa apakah navigasi membawa parameter refresh
-      const shouldRefresh = route.params?.refresh || false;
-      if (shouldRefresh) {
-        handleRefresh(); // Panggil fungsi refresh
-      }
-    });
-
-    return unsubscribe;
-  }, [navigation, route.params?.refresh]);
-
-  useEffect(() => {
-    // Tidak perlu reset AsyncStorage di sini
-  }, [refreshKey]);
 
   return (
     <GestureHandlerRootView>
@@ -76,7 +85,12 @@ const StatusTimeline = ({navigation, route}) => {
           </View>
         </TouchableOpacity>
         <Gap height={5} />
-        <ScrollView style={styles.content}>
+        <ScrollView
+          ref={scrollViewRef}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          style={styles.content}
+          key={refreshKey}>
           <Card onReportPress={openBottomSheet} connection={isConnected} />
           <Gap height={120} />
         </ScrollView>
