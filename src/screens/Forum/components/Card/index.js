@@ -21,6 +21,9 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import ReportBottomSheet from '../ReportBottomSheet';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import Share from 'react-native-share';
+import { Linking } from 'react-native';
 // import NetInfo from '@react-native-community/netinfo';
 
 const Card = ({post: selectedPost, onReportPress, connection}) => {
@@ -164,6 +167,20 @@ const Card = ({post: selectedPost, onReportPress, connection}) => {
     }
   }, [selectedPost]);
 
+  useEffect(() => {
+    const handleDynamicLink = async link => {
+      if (link.url.includes('/post/')) {
+        const postId = link.url.split('/post/')[1];
+        navigation.navigate('DetailStatus', {postId});
+      }
+    };
+
+    const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
+    dynamicLinks().getInitialLink().then(handleDynamicLink); // Handle if app was closed
+
+    return () => unsubscribe();
+  }, [navigation]);
+
   const handleUpvote = async (
     id,
     upvotes,
@@ -303,6 +320,39 @@ const Card = ({post: selectedPost, onReportPress, connection}) => {
     }
   };
 
+  const generateShareLink = async postId => {
+    try {
+      const link = await dynamicLinks().buildShortLink({
+        link: `https://manadopost.page.link/post?postId=${postId}`,
+        domainUriPrefix: 'https://manadopost.page.link',
+        android: {
+          packageName: 'com.mp.manadopost',
+          minimumVersion: '1',
+        },
+        ios: {
+          bundleId: 'com.mp.manadopost2',
+          minimumVersion: '1',
+        },
+      });
+      return link;
+    } catch (error) {
+      console.error('Error generating share link: ', error);
+    }
+  };
+
+  const handleSharePost = async postId => {
+    const link = await generateShareLink(postId);
+    if (link) {
+      Share.open({
+        title: 'Check out this post!',
+        message: `Check out this post on OurApp: ${link}`,
+        url: link,
+      })
+        .then(res => console.log('Share success:', res))
+        .catch(err => console.log('Share error:', err));
+    }
+  };
+
   return (
     <ScrollView
       refreshControl={
@@ -418,7 +468,7 @@ const Card = ({post: selectedPost, onReportPress, connection}) => {
                 </TouchableOpacity>
               </View>
               <View style={styles.shareButton}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => handleSharePost(post.id)}>
                   <IcShare />
                 </TouchableOpacity>
               </View>
