@@ -15,6 +15,12 @@ import {AdsProvider} from './context/AdsContext';
 import {MPDigitalProvider} from './context/MPDigitalContext';
 import {TokenProvider} from './context/TokenContext';
 import VersionCheck from 'react-native-version-check';
+import linking from './utils/linking';
+import {useNavigation} from '@react-navigation/native';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {createNavigationContainerRef} from '@react-navigation/native';
+
+const navigationRef = createNavigationContainerRef();
 
 GoogleSignin.configure({
   webClientId:
@@ -92,6 +98,23 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleDynamicLink = link => {
+      if (link.url && navigationRef.isReady()) {
+        const postID = link.url.split('/').pop();
+        navigationRef.navigate('Forum', {id: postID});
+      }
+    };
+
+    // Handle the app being opened from a link
+    const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
+
+    // Handle the app being launched from a link
+    dynamicLinks().getInitialLink().then(handleDynamicLink);
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <AuthProvider>
       <TokenProvider>
@@ -99,7 +122,7 @@ const App = () => {
           <MPDigitalProvider>
             <GestureHandlerRootView style={styles.gestureHandlerRootView}>
               <BottomSheetModalProvider>
-                <NavigationContainer>
+                <NavigationContainer linking={linking}>
                   <Routes />
                 </NavigationContainer>
               </BottomSheetModalProvider>

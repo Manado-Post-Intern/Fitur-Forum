@@ -23,7 +23,7 @@ import auth from '@react-native-firebase/auth';
 import ReportBottomSheet from '../ReportBottomSheet';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import Share from 'react-native-share';
-import { Linking } from 'react-native';
+import {Linking} from 'react-native';
 // import NetInfo from '@react-native-community/netinfo';
 
 const Card = ({post: selectedPost, onReportPress, connection}) => {
@@ -35,7 +35,7 @@ const Card = ({post: selectedPost, onReportPress, connection}) => {
   const [profileImages, setProfileImages] = useState({});
 
   const handleShowReportSheet = postId => {
-    // Panggil onReportPress di sini
+    // Panggil onReportPress di sinid
     if (onReportPress) {
       onReportPress(postId);
       setBottomSheetVisible(true); // Tampilkan bottom sheet
@@ -320,33 +320,34 @@ const Card = ({post: selectedPost, onReportPress, connection}) => {
     }
   };
 
-  const generateShareLink = async postId => {
+  async function generateLink(postId) {
     try {
       const link = await dynamicLinks().buildShortLink({
-        link: `https://manadopost.page.link/post?postId=${postId}`,
+        link: `https://manadopost.page.link/forum/post/${postId}`,
         domainUriPrefix: 'https://manadopost.page.link',
         android: {
           packageName: 'com.mp.manadopost',
-          minimumVersion: '1',
+          fallbackUrl:
+            'https://play.google.com/store/apps/details?id=com.mp.manadopost',
         },
-        ios: {
-          bundleId: 'com.mp.manadopost2',
-          minimumVersion: '1',
-        },
+        // ios: {
+        //   bundleId: 'com.yourapp.ios',
+        //   appStoreId: '123456789', // Your iOS app's App Store ID
+        // },
       });
       return link;
     } catch (error) {
       console.error('Error generating share link: ', error);
     }
-  };
+  }
 
   const handleSharePost = async postId => {
-    const link = await generateShareLink(postId);
+    const link = await generateLink(postId);
     if (link) {
       Share.open({
         title: 'Check out this post!',
-        message: `Check out this post on OurApp: ${link}`,
-        url: link,
+        message: `Check out this post on Manado Post App: ${link}`,
+        // url: link,
       })
         .then(res => console.log('Share success:', res))
         .catch(err => console.log('Share error:', err));
