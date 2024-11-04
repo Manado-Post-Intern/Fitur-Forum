@@ -322,8 +322,8 @@ const Card = ({post: selectedPost, onReportPress, connection}) => {
 
   async function generateLink(postId) {
     try {
-      const link = await dynamicLinks().buildShortLink({
-        link: `https://manadopost.page.link/forum/post/${postId}`,
+      const link = await dynamicLinks().buildLink({
+        link: `https://manadopost.page.link/${postId}`,
         domainUriPrefix: 'https://manadopost.page.link',
         android: {
           packageName: 'com.mp.manadopost',

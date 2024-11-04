@@ -24,7 +24,8 @@ const DetailStatus = () => {
   const route = useRoute();
 
   // State untuk melacak data post yang diambil dari navigasi dan Firebase
-  const [post] = useState(route.params.post); // Ambil post dari params awal
+  const [post, setPost] = useState(route.params?.post || null);
+  const postId = route.params?.postId || post?.id;
 
   // State untuk melacak teks komentar
   const [commentText, setCommentText] = useState('');
@@ -42,6 +43,17 @@ const DetailStatus = () => {
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['100%'], []);
   const [isConnected, setIsConnected] = useState(true);
+
+  useEffect(() => {
+    if (!post && postId) {
+      const postRef = database().ref(`forum/post/${postId}`);
+      postRef.once('value').then(snapshot => {
+        if (snapshot.exists()) {
+          setPost(snapshot.val());
+        }
+      });
+    }
+  }, [postId, post]);
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
