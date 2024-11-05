@@ -23,6 +23,42 @@
 		7D0F736857F2499FBC2C5FCA /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B524E76F357453181834FA9 /* Inter-Regular.ttf */; };
 		A369330DFD5A4816989D98C8 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D098099E881F4CF588DC21EE /* Inter-SemiBold.ttf */; };
 		3F9D09C9CA5247AB944AA0CB /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 79F3A369D478486CBDB1C63D /* Inter-Thin.ttf */; };
+		9921FC0266F246E48BAF147C /* NotoSerifGeorgian-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D04A291CF9804F7D8AE6B814 /* NotoSerifGeorgian-Black.ttf */; };
+		A062E4FFB4164E0F9C68E995 /* NotoSerifGeorgian-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADE816F457CB4A47B8EE1C13 /* NotoSerifGeorgian-Bold.ttf */; };
+		AAA6C83CF784402DBF62B8EF /* NotoSerifGeorgian-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 070BD70E507C4F94B4B39570 /* NotoSerifGeorgian-ExtraBold.ttf */; };
+		C42C1717F8F34AB2953B9FA5 /* NotoSerifGeorgian-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5B8C1B428F94095BB424885 /* NotoSerifGeorgian-ExtraLight.ttf */; };
+		ECBAC882213A4AB6BCAFB0AC /* NotoSerifGeorgian-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75943669C38E4B3FA269E9A8 /* NotoSerifGeorgian-Light.ttf */; };
+		632F352BEC3649678596F65E /* NotoSerifGeorgian-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 240E5AD63D864737B811DAB2 /* NotoSerifGeorgian-Medium.ttf */; };
+		FF78C3E3D2874F1C95C130A2 /* NotoSerifGeorgian-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18E09FCDB48547A1AF9EA0CE /* NotoSerifGeorgian-Regular.ttf */; };
+		27906A1590E94AE9943EFEC0 /* NotoSerifGeorgian-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEF9CAC9712246128638A449 /* NotoSerifGeorgian-SemiBold.ttf */; };
+		2085B63ED4064D8A9EB97488 /* NotoSerifGeorgian-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B13E4B56DE945D9A690F3CD /* NotoSerifGeorgian-Thin.ttf */; };
+		B3354DDC1F6C499EB951C4CC /* NotoSerifGeorgian_Condensed-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E14DF4139A6747DCAFB2B5C6 /* NotoSerifGeorgian_Condensed-Black.ttf */; };
+		0BA2104A75EC4B3BBE8C2C20 /* NotoSerifGeorgian_Condensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5408F74D7FF04DEBA6268828 /* NotoSerifGeorgian_Condensed-Bold.ttf */; };
+		7DAABEBB018540F98A07A079 /* NotoSerifGeorgian_Condensed-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 997C4C94568B4D048374071B /* NotoSerifGeorgian_Condensed-ExtraBold.ttf */; };
+		6E3DDBA7A4034394ABF8FE87 /* NotoSerifGeorgian_Condensed-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1F576E41A2944FEB8490BF1 /* NotoSerifGeorgian_Condensed-ExtraLight.ttf */; };
+		550D7D89520C4B41A37EDE99 /* NotoSerifGeorgian_Condensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60451B7306B44280B1C6FD44 /* NotoSerifGeorgian_Condensed-Light.ttf */; };
+		07DB23B013774746BB29401C /* NotoSerifGeorgian_Condensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A137AF3BFA5C4174A7BDE83F /* NotoSerifGeorgian_Condensed-Medium.ttf */; };
+		EB69A57D7D7948B882790BEB /* NotoSerifGeorgian_Condensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7002638B7B054E0B96EBD58F /* NotoSerifGeorgian_Condensed-Regular.ttf */; };
+		C5B20BC425604048A339F274 /* NotoSerifGeorgian_Condensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0074558D30C4129AD1E7F93 /* NotoSerifGeorgian_Condensed-SemiBold.ttf */; };
+		43BA60334268408F80DE239C /* NotoSerifGeorgian_Condensed-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 91D711E83C5B41E5B353347C /* NotoSerifGeorgian_Condensed-Thin.ttf */; };
+		AE190EA60BBA4425AC59692B /* NotoSerifGeorgian_ExtraCondensed-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B24B9653066F4C4D992EF774 /* NotoSerifGeorgian_ExtraCondensed-Black.ttf */; };
+		D167094E932A4743AB03AD19 /* NotoSerifGeorgian_ExtraCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D71D035522F4869ADEC5B50 /* NotoSerifGeorgian_ExtraCondensed-Bold.ttf */; };
+		A2E53BC5CBF444E9B98FDB45 /* NotoSerifGeorgian_ExtraCondensed-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC0300A4598468E831EDBC8 /* NotoSerifGeorgian_ExtraCondensed-ExtraBold.ttf */; };
+		F2BD76BDC6294EECAB322601 /* NotoSerifGeorgian_ExtraCondensed-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 629747EDA90C40AE82210420 /* NotoSerifGeorgian_ExtraCondensed-ExtraLight.ttf */; };
+		A38A04A7F8D7488686E1038D /* NotoSerifGeorgian_ExtraCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D777BCB13B214833A1EE24BE /* NotoSerifGeorgian_ExtraCondensed-Light.ttf */; };
+		CBB2E8E1A41840D7937055CF /* NotoSerifGeorgian_ExtraCondensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E725F13B2484FA5AA217ACE /* NotoSerifGeorgian_ExtraCondensed-Medium.ttf */; };
+		8EE5609E3EED49F3AA6BBDEE /* NotoSerifGeorgian_ExtraCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6B3C3F7C7C0472CB67DDABC /* NotoSerifGeorgian_ExtraCondensed-Regular.ttf */; };
+		9ED44586E57C4924BE94E7D3 /* NotoSerifGeorgian_ExtraCondensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 798B6807A075457A8BCFFB63 /* NotoSerifGeorgian_ExtraCondensed-SemiBold.ttf */; };
+		D04AACC4DB0C4F24B54B8294 /* NotoSerifGeorgian_ExtraCondensed-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FE560F547F14D4487DA6174 /* NotoSerifGeorgian_ExtraCondensed-Thin.ttf */; };
+		A2E237FA73A34FDEA7AD05BC /* NotoSerifGeorgian_SemiCondensed-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57E7CCFABC914573B6C771E1 /* NotoSerifGeorgian_SemiCondensed-Black.ttf */; };
+		54A05CDDE5EB47C3B7131B7A /* NotoSerifGeorgian_SemiCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BAD9A26E50A47669DB3AFD8 /* NotoSerifGeorgian_SemiCondensed-Bold.ttf */; };
+		2BD49E50C5E6482D8C60FCEC /* NotoSerifGeorgian_SemiCondensed-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC51B99F76BC48688BA2CF71 /* NotoSerifGeorgian_SemiCondensed-ExtraBold.ttf */; };
+		7BB66C25FAF54A0C8A861C53 /* NotoSerifGeorgian_SemiCondensed-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B0589C7E84604FEEAA6BAECA /* NotoSerifGeorgian_SemiCondensed-ExtraLight.ttf */; };
+		A76103EDECEB40BEADFD4C34 /* NotoSerifGeorgian_SemiCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 12B45D0DA2B8496B9DE3990F /* NotoSerifGeorgian_SemiCondensed-Light.ttf */; };
+		414CAFF4013540ADB60F14E8 /* NotoSerifGeorgian_SemiCondensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3AACF9324A6C4A36967F3478 /* NotoSerifGeorgian_SemiCondensed-Medium.ttf */; };
+		1057CB8F74EE4C9ABBA14D2E /* NotoSerifGeorgian_SemiCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A490BB53040434E80C2B3A3 /* NotoSerifGeorgian_SemiCondensed-Regular.ttf */; };
+		0EC2C03EE9144B39BA7412D2 /* NotoSerifGeorgian_SemiCondensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA28CFD68A884A898BDF742F /* NotoSerifGeorgian_SemiCondensed-SemiBold.ttf */; };
+		DA870B5C681B401688CA4C7B /* NotoSerifGeorgian_SemiCondensed-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F584331840448B4BFF26EF4 /* NotoSerifGeorgian_SemiCondensed-Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +99,42 @@
 		5B524E76F357453181834FA9 /* Inter-Regular.ttf */ = {isa = PBXFileReference; name = "Inter-Regular.ttf"; path = "../src/assets/fonts/Inter/Inter-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		D098099E881F4CF588DC21EE /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; name = "Inter-SemiBold.ttf"; path = "../src/assets/fonts/Inter/Inter-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		79F3A369D478486CBDB1C63D /* Inter-Thin.ttf */ = {isa = PBXFileReference; name = "Inter-Thin.ttf"; path = "../src/assets/fonts/Inter/Inter-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D04A291CF9804F7D8AE6B814 /* NotoSerifGeorgian-Black.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-Black.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ADE816F457CB4A47B8EE1C13 /* NotoSerifGeorgian-Bold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-Bold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		070BD70E507C4F94B4B39570 /* NotoSerifGeorgian-ExtraBold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-ExtraBold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E5B8C1B428F94095BB424885 /* NotoSerifGeorgian-ExtraLight.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-ExtraLight.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		75943669C38E4B3FA269E9A8 /* NotoSerifGeorgian-Light.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-Light.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		240E5AD63D864737B811DAB2 /* NotoSerifGeorgian-Medium.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-Medium.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		18E09FCDB48547A1AF9EA0CE /* NotoSerifGeorgian-Regular.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-Regular.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DEF9CAC9712246128638A449 /* NotoSerifGeorgian-SemiBold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-SemiBold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3B13E4B56DE945D9A690F3CD /* NotoSerifGeorgian-Thin.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian-Thin.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E14DF4139A6747DCAFB2B5C6 /* NotoSerifGeorgian_Condensed-Black.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-Black.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5408F74D7FF04DEBA6268828 /* NotoSerifGeorgian_Condensed-Bold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-Bold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		997C4C94568B4D048374071B /* NotoSerifGeorgian_Condensed-ExtraBold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-ExtraBold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A1F576E41A2944FEB8490BF1 /* NotoSerifGeorgian_Condensed-ExtraLight.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-ExtraLight.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60451B7306B44280B1C6FD44 /* NotoSerifGeorgian_Condensed-Light.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-Light.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A137AF3BFA5C4174A7BDE83F /* NotoSerifGeorgian_Condensed-Medium.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-Medium.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7002638B7B054E0B96EBD58F /* NotoSerifGeorgian_Condensed-Regular.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-Regular.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D0074558D30C4129AD1E7F93 /* NotoSerifGeorgian_Condensed-SemiBold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-SemiBold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		91D711E83C5B41E5B353347C /* NotoSerifGeorgian_Condensed-Thin.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_Condensed-Thin.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_Condensed-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B24B9653066F4C4D992EF774 /* NotoSerifGeorgian_ExtraCondensed-Black.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-Black.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8D71D035522F4869ADEC5B50 /* NotoSerifGeorgian_ExtraCondensed-Bold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-Bold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ACC0300A4598468E831EDBC8 /* NotoSerifGeorgian_ExtraCondensed-ExtraBold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-ExtraBold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		629747EDA90C40AE82210420 /* NotoSerifGeorgian_ExtraCondensed-ExtraLight.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-ExtraLight.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D777BCB13B214833A1EE24BE /* NotoSerifGeorgian_ExtraCondensed-Light.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-Light.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7E725F13B2484FA5AA217ACE /* NotoSerifGeorgian_ExtraCondensed-Medium.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-Medium.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E6B3C3F7C7C0472CB67DDABC /* NotoSerifGeorgian_ExtraCondensed-Regular.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-Regular.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		798B6807A075457A8BCFFB63 /* NotoSerifGeorgian_ExtraCondensed-SemiBold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-SemiBold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7FE560F547F14D4487DA6174 /* NotoSerifGeorgian_ExtraCondensed-Thin.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_ExtraCondensed-Thin.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_ExtraCondensed-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		57E7CCFABC914573B6C771E1 /* NotoSerifGeorgian_SemiCondensed-Black.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-Black.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9BAD9A26E50A47669DB3AFD8 /* NotoSerifGeorgian_SemiCondensed-Bold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-Bold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AC51B99F76BC48688BA2CF71 /* NotoSerifGeorgian_SemiCondensed-ExtraBold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-ExtraBold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B0589C7E84604FEEAA6BAECA /* NotoSerifGeorgian_SemiCondensed-ExtraLight.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-ExtraLight.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		12B45D0DA2B8496B9DE3990F /* NotoSerifGeorgian_SemiCondensed-Light.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-Light.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3AACF9324A6C4A36967F3478 /* NotoSerifGeorgian_SemiCondensed-Medium.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-Medium.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8A490BB53040434E80C2B3A3 /* NotoSerifGeorgian_SemiCondensed-Regular.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-Regular.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EA28CFD68A884A898BDF742F /* NotoSerifGeorgian_SemiCondensed-SemiBold.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-SemiBold.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2F584331840448B4BFF26EF4 /* NotoSerifGeorgian_SemiCondensed-Thin.ttf */ = {isa = PBXFileReference; name = "NotoSerifGeorgian_SemiCondensed-Thin.ttf"; path = "../src/assets/fonts/Georgia/NotoSerifGeorgian_SemiCondensed-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +253,42 @@
 				5B524E76F357453181834FA9 /* Inter-Regular.ttf */,
 				D098099E881F4CF588DC21EE /* Inter-SemiBold.ttf */,
 				79F3A369D478486CBDB1C63D /* Inter-Thin.ttf */,
+				D04A291CF9804F7D8AE6B814 /* NotoSerifGeorgian-Black.ttf */,
+				ADE816F457CB4A47B8EE1C13 /* NotoSerifGeorgian-Bold.ttf */,
+				070BD70E507C4F94B4B39570 /* NotoSerifGeorgian-ExtraBold.ttf */,
+				E5B8C1B428F94095BB424885 /* NotoSerifGeorgian-ExtraLight.ttf */,
+				75943669C38E4B3FA269E9A8 /* NotoSerifGeorgian-Light.ttf */,
+				240E5AD63D864737B811DAB2 /* NotoSerifGeorgian-Medium.ttf */,
+				18E09FCDB48547A1AF9EA0CE /* NotoSerifGeorgian-Regular.ttf */,
+				DEF9CAC9712246128638A449 /* NotoSerifGeorgian-SemiBold.ttf */,
+				3B13E4B56DE945D9A690F3CD /* NotoSerifGeorgian-Thin.ttf */,
+				E14DF4139A6747DCAFB2B5C6 /* NotoSerifGeorgian_Condensed-Black.ttf */,
+				5408F74D7FF04DEBA6268828 /* NotoSerifGeorgian_Condensed-Bold.ttf */,
+				997C4C94568B4D048374071B /* NotoSerifGeorgian_Condensed-ExtraBold.ttf */,
+				A1F576E41A2944FEB8490BF1 /* NotoSerifGeorgian_Condensed-ExtraLight.ttf */,
+				60451B7306B44280B1C6FD44 /* NotoSerifGeorgian_Condensed-Light.ttf */,
+				A137AF3BFA5C4174A7BDE83F /* NotoSerifGeorgian_Condensed-Medium.ttf */,
+				7002638B7B054E0B96EBD58F /* NotoSerifGeorgian_Condensed-Regular.ttf */,
+				D0074558D30C4129AD1E7F93 /* NotoSerifGeorgian_Condensed-SemiBold.ttf */,
+				91D711E83C5B41E5B353347C /* NotoSerifGeorgian_Condensed-Thin.ttf */,
+				B24B9653066F4C4D992EF774 /* NotoSerifGeorgian_ExtraCondensed-Black.ttf */,
+				8D71D035522F4869ADEC5B50 /* NotoSerifGeorgian_ExtraCondensed-Bold.ttf */,
+				ACC0300A4598468E831EDBC8 /* NotoSerifGeorgian_ExtraCondensed-ExtraBold.ttf */,
+				629747EDA90C40AE82210420 /* NotoSerifGeorgian_ExtraCondensed-ExtraLight.ttf */,
+				D777BCB13B214833A1EE24BE /* NotoSerifGeorgian_ExtraCondensed-Light.ttf */,
+				7E725F13B2484FA5AA217ACE /* NotoSerifGeorgian_ExtraCondensed-Medium.ttf */,
+				E6B3C3F7C7C0472CB67DDABC /* NotoSerifGeorgian_ExtraCondensed-Regular.ttf */,
+				798B6807A075457A8BCFFB63 /* NotoSerifGeorgian_ExtraCondensed-SemiBold.ttf */,
+				7FE560F547F14D4487DA6174 /* NotoSerifGeorgian_ExtraCondensed-Thin.ttf */,
+				57E7CCFABC914573B6C771E1 /* NotoSerifGeorgian_SemiCondensed-Black.ttf */,
+				9BAD9A26E50A47669DB3AFD8 /* NotoSerifGeorgian_SemiCondensed-Bold.ttf */,
+				AC51B99F76BC48688BA2CF71 /* NotoSerifGeorgian_SemiCondensed-ExtraBold.ttf */,
+				B0589C7E84604FEEAA6BAECA /* NotoSerifGeorgian_SemiCondensed-ExtraLight.ttf */,
+				12B45D0DA2B8496B9DE3990F /* NotoSerifGeorgian_SemiCondensed-Light.ttf */,
+				3AACF9324A6C4A36967F3478 /* NotoSerifGeorgian_SemiCondensed-Medium.ttf */,
+				8A490BB53040434E80C2B3A3 /* NotoSerifGeorgian_SemiCondensed-Regular.ttf */,
+				EA28CFD68A884A898BDF742F /* NotoSerifGeorgian_SemiCondensed-SemiBold.ttf */,
+				2F584331840448B4BFF26EF4 /* NotoSerifGeorgian_SemiCondensed-Thin.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -290,6 +398,42 @@
 				7D0F736857F2499FBC2C5FCA /* Inter-Regular.ttf in Resources */,
 				A369330DFD5A4816989D98C8 /* Inter-SemiBold.ttf in Resources */,
 				3F9D09C9CA5247AB944AA0CB /* Inter-Thin.ttf in Resources */,
+				9921FC0266F246E48BAF147C /* NotoSerifGeorgian-Black.ttf in Resources */,
+				A062E4FFB4164E0F9C68E995 /* NotoSerifGeorgian-Bold.ttf in Resources */,
+				AAA6C83CF784402DBF62B8EF /* NotoSerifGeorgian-ExtraBold.ttf in Resources */,
+				C42C1717F8F34AB2953B9FA5 /* NotoSerifGeorgian-ExtraLight.ttf in Resources */,
+				ECBAC882213A4AB6BCAFB0AC /* NotoSerifGeorgian-Light.ttf in Resources */,
+				632F352BEC3649678596F65E /* NotoSerifGeorgian-Medium.ttf in Resources */,
+				FF78C3E3D2874F1C95C130A2 /* NotoSerifGeorgian-Regular.ttf in Resources */,
+				27906A1590E94AE9943EFEC0 /* NotoSerifGeorgian-SemiBold.ttf in Resources */,
+				2085B63ED4064D8A9EB97488 /* NotoSerifGeorgian-Thin.ttf in Resources */,
+				B3354DDC1F6C499EB951C4CC /* NotoSerifGeorgian_Condensed-Black.ttf in Resources */,
+				0BA2104A75EC4B3BBE8C2C20 /* NotoSerifGeorgian_Condensed-Bold.ttf in Resources */,
+				7DAABEBB018540F98A07A079 /* NotoSerifGeorgian_Condensed-ExtraBold.ttf in Resources */,
+				6E3DDBA7A4034394ABF8FE87 /* NotoSerifGeorgian_Condensed-ExtraLight.ttf in Resources */,
+				550D7D89520C4B41A37EDE99 /* NotoSerifGeorgian_Condensed-Light.ttf in Resources */,
+				07DB23B013774746BB29401C /* NotoSerifGeorgian_Condensed-Medium.ttf in Resources */,
+				EB69A57D7D7948B882790BEB /* NotoSerifGeorgian_Condensed-Regular.ttf in Resources */,
+				C5B20BC425604048A339F274 /* NotoSerifGeorgian_Condensed-SemiBold.ttf in Resources */,
+				43BA60334268408F80DE239C /* NotoSerifGeorgian_Condensed-Thin.ttf in Resources */,
+				AE190EA60BBA4425AC59692B /* NotoSerifGeorgian_ExtraCondensed-Black.ttf in Resources */,
+				D167094E932A4743AB03AD19 /* NotoSerifGeorgian_ExtraCondensed-Bold.ttf in Resources */,
+				A2E53BC5CBF444E9B98FDB45 /* NotoSerifGeorgian_ExtraCondensed-ExtraBold.ttf in Resources */,
+				F2BD76BDC6294EECAB322601 /* NotoSerifGeorgian_ExtraCondensed-ExtraLight.ttf in Resources */,
+				A38A04A7F8D7488686E1038D /* NotoSerifGeorgian_ExtraCondensed-Light.ttf in Resources */,
+				CBB2E8E1A41840D7937055CF /* NotoSerifGeorgian_ExtraCondensed-Medium.ttf in Resources */,
+				8EE5609E3EED49F3AA6BBDEE /* NotoSerifGeorgian_ExtraCondensed-Regular.ttf in Resources */,
+				9ED44586E57C4924BE94E7D3 /* NotoSerifGeorgian_ExtraCondensed-SemiBold.ttf in Resources */,
+				D04AACC4DB0C4F24B54B8294 /* NotoSerifGeorgian_ExtraCondensed-Thin.ttf in Resources */,
+				A2E237FA73A34FDEA7AD05BC /* NotoSerifGeorgian_SemiCondensed-Black.ttf in Resources */,
+				54A05CDDE5EB47C3B7131B7A /* NotoSerifGeorgian_SemiCondensed-Bold.ttf in Resources */,
+				2BD49E50C5E6482D8C60FCEC /* NotoSerifGeorgian_SemiCondensed-ExtraBold.ttf in Resources */,
+				7BB66C25FAF54A0C8A861C53 /* NotoSerifGeorgian_SemiCondensed-ExtraLight.ttf in Resources */,
+				A76103EDECEB40BEADFD4C34 /* NotoSerifGeorgian_SemiCondensed-Light.ttf in Resources */,
+				414CAFF4013540ADB60F14E8 /* NotoSerifGeorgian_SemiCondensed-Medium.ttf in Resources */,
+				1057CB8F74EE4C9ABBA14D2E /* NotoSerifGeorgian_SemiCondensed-Regular.ttf in Resources */,
+				0EC2C03EE9144B39BA7412D2 /* NotoSerifGeorgian_SemiCondensed-SemiBold.ttf in Resources */,
+				DA870B5C681B401688CA4C7B /* NotoSerifGeorgian_SemiCondensed-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +568,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-manadoPostRevamp-manadoPostRevampTests/Pods-manadoPostRevamp-manadoPostRevampTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */

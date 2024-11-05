@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unstable-nested-components */
 import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -23,6 +24,7 @@ import {
   SideMenu,
   SignIn,
   Splash,
+  StatusTimeline,
   Trending,
   Preview as AdsPreview,
   Profile,
@@ -41,6 +43,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {screenHeightPercentage} from '../utils';
 import {BottomTabBar, TopBar} from '../components';
 import {AuthContext} from '../context/AuthContext';
+import CreateStatus from '../screens/Forum/CreateStatus';
+import DetailStatus from '../screens/Forum/DetailStatus';
 
 /**
  * Home Bottom Tab Bar Navigation Routes
@@ -68,7 +72,11 @@ const HomeTab = () => {
           minHeight: 80,
         },
       })}>
-      <Tab.Screen name="Trending" component={Trending} />
+      <Tab.Screen
+        name="Forum"
+        component={StatusTimeline}
+        options={{headerShown: false}}
+      />
       <Tab.Screen
         name="Region"
         component={Region}
@@ -116,6 +124,10 @@ const PrivateRoutes = () => {
       <Stack.Screen name="MoreNews" component={MoreNews} />
       <Stack.Screen name="MetaMore" component={MetaMore} />
       <Stack.Screen name="WriteNews" component={WriteNews} />
+      <Stack.Screen name="CreateStatus" component={CreateStatus} />
+      <Stack.Screen name="DetailStatus" component={DetailStatus} />
+
+      {/* <Stack.Screen name="Forum" component={StatusTimeline} /> */}
       <Stack.Screen
         name="ChannelTagSelection"
         component={ChannelTagSelection}
