@@ -22,6 +22,19 @@ import {AdsProvider} from './context/AdsContext';
 import {MPDigitalProvider} from './context/MPDigitalContext';
 import {TokenProvider} from './context/TokenContext';
 import VersionCheck from 'react-native-version-check';
+
+import PersistentText from './components/atoms/PersistenText';
+import {SnackbarNotification} from './components';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {SnackbarProvider} from './context/SnackbarContext';
+import {
+  ErrorNotificationProvider,
+  useErrorNotification,
+} from './context/ErrorNotificationContext'; // Import context
+import ErrorNotification from './components/atoms/ErrorNotification'; // Import komponen notifikasI
+import {Provider} from 'react-redux'; // Import Redux Provider
+import {store} from './redux/store'; // Import the Redux store
+
 import linking from './utils/linking';
 import {useNavigation} from '@react-navigation/native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
