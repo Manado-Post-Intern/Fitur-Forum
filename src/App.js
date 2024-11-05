@@ -22,18 +22,12 @@ import {AdsProvider} from './context/AdsContext';
 import {MPDigitalProvider} from './context/MPDigitalContext';
 import {TokenProvider} from './context/TokenContext';
 import VersionCheck from 'react-native-version-check';
+import linking from './utils/linking';
+import {useNavigation} from '@react-navigation/native';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {createNavigationContainerRef} from '@react-navigation/native';
 
-import PersistentText from './components/atoms/PersistenText';
-import {SnackbarNotification} from './components';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {SnackbarProvider} from './context/SnackbarContext';
-import {
-  ErrorNotificationProvider,
-  useErrorNotification,
-} from './context/ErrorNotificationContext'; // Import context
-import ErrorNotification from './components/atoms/ErrorNotification'; // Import komponen notifikasI
-import {Provider} from 'react-redux'; // Import Redux Provider
-import {store} from './redux/store'; // Import the Redux store
+const navigationRef = createNavigationContainerRef();
 
 GoogleSignin.configure({
   webClientId:
@@ -111,6 +105,23 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleDynamicLink = link => {
+      if (link.url && navigationRef.isReady()) {
+        const postID = link.url.split('/').pop();
+        navigationRef.navigate('Forum', {id: postID});
+      }
+    };
+
+    // Handle the app being opened from a link
+    const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
+
+    // Handle the app being launched from a link
+    dynamicLinks().getInitialLink().then(handleDynamicLink);
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <ErrorNotificationProvider>
@@ -123,7 +134,7 @@ const App = () => {
                     <GestureHandlerRootView
                       style={styles.gestureHandlerRootView}>
                       <BottomSheetModalProvider>
-                        <NavigationContainer>
+                        <NavigationContainer linking={linking}>
                           <View style={styles.container}>
                             <Routes />
                             <SnackbarNotification />
